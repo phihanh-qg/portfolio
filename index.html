@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pham Phi Khanh | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Reset & Structure */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Magnificent Blue Pastel Background */
+        body {
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            background-attachment: fixed;
+            color: #2c3e50;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Particle Canvas for Background Effects */
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Glassmorphism Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+            z-index: 1000;
+            padding: 15px 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        nav a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #4364f7;
+            transform: translateY(-2px);
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 20px 60px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* Essential Glass Card Design */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Hero */
+        .profile-img {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 6px solid #fff;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            margin-bottom: 25px;
+        }
+
+        h1 { font-size: 3.2rem; margin-bottom: 10px; color: #1a2a6c; text-transform: uppercase; letter-spacing: 2px; }
+        h2 { font-size: 2rem; margin-bottom: 30px; color: #4364f7; text-align: center; }
+
+        .bio-text { font-size: 1.15rem; max-width: 800px; margin: auto; color: #555; }
+
+        /* Grid System */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .item-card {
+            text-align: left;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .date-tag {
+            background: #4364f7;
+            color: white;
+            padding: 4px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 15px;
+            width: fit-content;
+        }
+
+        .role-title {
+            color: #1a2a6c;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        /* Gallery */
+        .gallery { display: flex; gap: 10px; margin-bottom: 20px; }
+        .gallery img { 
+            width: 100%; height: 200px; object-fit: cover; border-radius: 15px;
+        }
+        .gallery.split img { width: 50%; }
+
+        /* Achievements/Volunteering List */
+        .achievement-list { list-style: none; color: #555; }
+        .achievement-list li { margin-bottom: 8px; position: relative; padding-left: 20px; }
+        .achievement-list li::before {
+            content: "✦";
+            position: absolute;
+            left: 0;
+            color: #4364f7;
+        }
+
+        /* Contact & Icons */
+        .contact-box { text-align: center; max-width: 700px; padding: 50px; }
+        
+        .contact-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            margin: 25px 0;
+        }
+
+        .contact-item {
+            font-size: 1.15rem;
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.3s;
+        }
+
+        .contact-item:hover { color: #4364f7; transform: scale(1.05); }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .social-icon {
+            font-size: 2.2rem;
+            color: #4364f7;
+            transition: 0.3s;
+        }
+
+        .social-icon:hover {
+            color: #1a2a6c;
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        footer { padding: 30px; text-align: center; font-weight: 700; color: #1a2a6c; }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="particles-js"></div>
+
+    <header>
+        <nav>
+            <a href="#about">About</a>
+            <a href="#projects">Projects</a>
+            <a href="#achievements">Achievements</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <section id="about">
+        <div class="glass-card" style="text-align: center;">
+            <img src="https://lh3.googleusercontent.com/u/0/d/18KATG7-5je6d4QJJ2bTeu-N6aYoHwAsl" alt="Pham Phi Khanh" class="profile-img">
+            <h1>Pham Phi Khanh</h1>
+            <h2>Embedded Systems & IoT Enthusiast</h2>
+            <p class="bio-text">I am a sophomore majoring in Embedded Systems and IoT at Da Nang University of Science and Technology. I transform complex technical challenges into practical, innovative solutions.</p>
+            <div style="margin-top: 25px;">
+                <strong>Key Skills:</strong> C++, Python, HTML/CSS, JS, Arduino, IoT, AI Integration
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2>Key Technical Projects</h2>
+        <div class="grid">
+            
+            <div class="glass-card item-card">
+                <div class="gallery split">
+                    <img src="https://lh3.googleusercontent.com/u/0/d/1z2D37I7vpI_doF3xZGgSodXDWvX8PZ4O" alt="AI Emotion Research Visual 1">
+                    <img src="https://lh3.googleusercontent.com/u/0/d/1mdCE3YDh0ARNWkcPxDoWqqZiRylbyPIt" alt="AI Emotion Team Visual 2">
+                </div>
+                <h3>AI-Based Emotional Recognition & Mitigation</h3>
+                <span class="date-tag">2023 - 2025</span>
+                
+                <p class="role-title">Role: Project Lead & Designer</p>
+                <p>Oversaw the research project analyzing negative emotions and applying AI for mitigation. Responsible for the design of the survey and overall research architecture.</p>
+                
+                <p style="margin-top: 15px; font-weight: bold; color: #fc5c7d;">🏆 Second Prize - Provincial STEM Competition</p>
+                <p style="font-weight: bold; color: #fc5c7d;">🏆 Fourth Prize - Provincial Science Research Competition</p>
+            </div>
+
+            <div class="glass-card item-card">
+                <div class="gallery">
+                    <img src="https://lh3.googleusercontent.com/u/0/d/1bFaRIGygBc0QPxohCgErGx8zooQMuWov" alt="Robot Maze Runner Presentation">
+                </div>
+                <h3>Autonomous Robot Maze Runner</h3>
+                <span class="date-tag">2025</span>
+                
+                <p class="role-title">Role: Software Development Lead</p>
+                <p>Architected and built the core software for an autonomous robot capable of solving complex mazes. Integrated sensor processing and optimized logic for speed and accuracy.</p>
+            </div>
+
+            <div class="glass-card item-card">
+                <div class="gallery">
+                    <img src="https://lh3.googleusercontent.com/u/0/d/1qWTOqWI825o8DhndBTiV8X5jkHDCugjQ" alt="Emora Link Device Visual">
+                </div>
+                <h3>EMORA LINK (Startup)</h3>
+                <span class="date-tag">Ongoing</span>
+                
+                <p class="role-title">Role: Technical Founder</p>
+                <p>Leading the technical development of a privacy-first smart wearable. Architecting the embedded system and BLE stack to enable decentralized, emotion-based offline connections.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="achievements">
+        <h2>Education & Background</h2>
+        <div class="grid">
+            <div class="glass-card item-card">
+                <span class="date-tag">2025 - Present</span>
+                <h3>DUT - University of Science and Technology</h3>
+                <p>Majoring in Embedded Systems and IoT</p>
+                <p style="color: #4364f7; font-weight: bold; margin-top: 10px; font-size: 1.1rem;">GPA First Semester: 3.39/4.00</p>
+            </div>
+            <div class="glass-card item-card">
+                <span class="date-tag">2022 - 2025</span>
+                <h3>Ea H'Leo High School</h3>
+                <ul class="achievement-list">
+                    <li>Top Scorer in Informatics - National High School Graduation Examination</li>
+                    <li>First Prize in the Provincial Informatics Competition</li>
+                </ul>
+            </div>
+            <div class="glass-card item-card">
+                <span class="date-tag">Volunteering</span>
+                <h3>Community Impact</h3>
+                <ul class="achievement-list">
+                    <li>Event Team Member at TopCV English Club</li>
+                    <li>Dedicated Blood Donation Volunteer (2 times)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="glass-card contact-box">
+            <h2>Let's Connect</h2>
+            <p>I am always open to interesting ideas and collaboration. Feel free to reach out through any channel.</p>
+            
+            <ul class="contact-list">
+                <li><a href="tel:0563270729" class="contact-item"><i class="fas fa-phone"></i> 0563270729</a></li>
+                <li><a href="mailto:phamphikhanh2707@gmail.com" class="contact-item"><i class="fas fa-envelope"></i> phamphikhanh2707@gmail.com</a></li>
+            </ul>
+            
+            <div class="social-icons">
+                <a href="https://www.facebook.com/phihanh.qg" target="_blank" class="social-icon"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/phihanh.qg/" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Pham Phi Khanh | Innovation & Integrity</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#4364f7" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5, "random": false },
+                "size": { "value": 3, "random": true },
+                "line_linked": { "enable": true, "distance": 150, "color": "#1a2a6c", "opacity": 0.4, "width": 1 },
+                "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
+                "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 4 } }
+            },
+            "retina_detect": true
+        });
+    </script>
+</body>
+</html>
