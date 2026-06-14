@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Education — Phạm Phi Khanh</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & VARIABLES ── */
+:root {
+  --bg-color: #f8fafc;
+  --accent: #059669; 
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --border-glass: rgba(255, 255, 255, 0.6);
+  --shadow-card: 0 15px 35px rgba(15, 23, 42, 0.05);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; font-style: normal !important; }
+
+body {
+  font-family: 'Inter', sans-serif; color: var(--text-main);
+  background-color: var(--bg-color); overflow-x: hidden; 
+}
+
+/* ── NỀN KẺ Ô & ÁNH SÁNG BAY ── */
+.grid-bg {
+  position: fixed; inset: 0; z-index: -3;
+  background-image:
+    linear-gradient(rgba(5, 150, 105, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(5, 150, 105, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+.ambient-bg { position: fixed; inset: 0; z-index: -2; overflow: hidden; pointer-events: none; }
+.orb { position: absolute; border-radius: 50%; filter: blur(100px); animation: floatUpOrb linear infinite; }
+.orb-1 { width: 450px; height: 450px; background: rgba(5, 150, 105, 0.25); left: 5%; bottom: -30%; animation-duration: 18s; }
+.orb-2 { width: 550px; height: 550px; background: rgba(37, 99, 235, 0.15); right: -5%; bottom: -40%; animation-duration: 22s; animation-delay: -5s; }
+.orb-3 { width: 350px; height: 350px; background: rgba(16, 185, 129, 0.2); left: 40%; top: 20%; animation-duration: 15s; animation-delay: -10s; }
+
+@keyframes floatUpOrb {
+  0% { transform: translateY(200px) scale(0.8) translateX(0); opacity: 0; }
+  20% { opacity: 0.6; }
+  80% { opacity: 0.5; }
+  100% { transform: translateY(-130vh) scale(1.3) translateX(-50px); opacity: 0; }
+}
+
+/* ── NAVIGATION ── */
+@keyframes navReveal {
+  0% { opacity: 0; transform: translateY(-20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+nav {
+  position: fixed; top: 0; left: 0; right: 0; height: 70px;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 5%; background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px); border-bottom: 1px solid rgba(0,0,0,0.04);
+  z-index: 1000; animation: navReveal 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.logo { font-weight: 800; font-size: 20px; letter-spacing: -0.5px; }
+.logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a { text-decoration: none; color: var(--text-muted); font-size: 14px; font-weight: 600; transition: 0.3s; position: relative; }
+.nav-links a.active { color: var(--text-main); }
+.nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 2px; background: var(--accent); transition: 0.3s ease; }
+.nav-links a.active::after { width: 100%; }
+
+/* ── SCROLL REVEAL ANIMATION ── */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(50px) scale(0.96);
+  filter: blur(12px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform, filter;
+}
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.25s; }
+.delay-3 { transition-delay: 0.4s; }
+.delay-4 { transition-delay: 0.55s; }
+
+/* ── EDUCATION LAYOUT ── */
+.edu-container { max-width: 1100px; margin: 0 auto; padding: 120px 5% 80px; }
+.page-title { font-size: clamp(2.5rem, 4vw, 3.5rem); font-weight: 800; letter-spacing: -1.5px; color: var(--text-main); text-align: center; margin-bottom: 1rem; }
+
+/* Interests Chips */
+.interests-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 4rem; }
+.interest-chip { font-size: 11px; font-weight: 700; color: var(--accent); background: rgba(5, 150, 105, 0.08); padding: 6px 14px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid rgba(5, 150, 105, 0.15); }
+
+/* Timeline Track */
+.timeline { position: relative; padding-left: 2rem; border-left: 2px solid rgba(5, 150, 105, 0.2); }
+@media (max-width: 768px) { .timeline { padding-left: 1rem; } }
+
+.timeline-block { position: relative; margin-bottom: 5rem; }
+.timeline-dot {
+  position: absolute; left: -35px; top: 0; width: 16px; height: 16px; 
+  border-radius: 50%; background: var(--accent); border: 4px solid #fff; 
+  box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1);
+}
+@media (max-width: 768px) { .timeline-dot { left: -21px; width: 12px; height: 12px; } }
+
+/* Institution Header */
+.school-header { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem; }
+.school-logo { width: 70px; height: 70px; background: #fff; border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(0,0,0,0.06); padding: 8px; border: 1px solid rgba(0,0,0,0.04); }
+.school-logo img { width: 100%; height: 100%; object-fit: contain; }
+.school-info h2 { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.5px; color: var(--text-main); line-height: 1.2; }
+.school-period { font-size: 0.95rem; font-weight: 700; color: var(--accent); margin-top: 0.3rem; display: inline-block; background: rgba(5, 150, 105, 0.1); padding: 4px 12px; border-radius: 999px; }
+
+/* Semesters & Grids */
+.semester-label { font-size: 1.2rem; font-weight: 800; color: var(--text-main); margin: 3rem 0 1.5rem; display: flex; align-items: center; gap: 10px; }
+.semester-label::before { content: ''; width: 20px; height: 2px; background: var(--accent); }
+.bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+
+/* Glass Cards (Bento Items) */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass); border-radius: 20px; 
+  padding: 1.5rem; box-shadow: var(--shadow-card);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s, border-color 0.4s;
+  display: flex; flex-direction: column;
+}
+.glass-card:hover {
+  transform: translateY(-8px); box-shadow: 0 25px 45px rgba(5, 150, 105, 0.12);
+  border-color: rgba(5, 150, 105, 0.3); z-index: 10;
+}
+
+/* Card Images */
+.card-img-wrapper { width: 100%; height: 180px; border-radius: 12px; overflow: hidden; margin-bottom: 1.2rem; background: #e2e8f0; position: relative; }
+.card-img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+.glass-card:hover .card-img-wrapper img { transform: scale(1.05); }
+
+/* Card Typography */
+.card-title { font-size: 1.15rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem; line-height: 1.3; }
+.card-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+.card-desc ul { padding-left: 1.2rem; margin-top: 0.5rem; }
+.card-desc li { margin-bottom: 0.4rem; }
+.card-desc li::marker { color: var(--accent); }
+
+/* Highlight Badge */
+.highlight-badge {
+  position: absolute; top: 12px; right: 12px; background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px); padding: 6px 12px; border-radius: 8px;
+  font-size: 0.75rem; font-weight: 800; color: var(--accent); box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border: 1px solid rgba(5, 150, 105, 0.2);
+}
+
+@media (max-width: 992px) {
+  .edu-container { padding-top: 100px; }
+  .bento-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+  <div class="grid-bg"></div>
+  <div class="ambient-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <nav>
+    <div class="logo">Phi<span>Khanh</span></div>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-item">Home</a></li>
+      <li><a href="about.html" class="nav-item">About me</a></li>
+      <li><a href="#" class="nav-item active">Education</a></li>
+      <li><a href="teamwork.html" class="nav-item">Teamwork & Experience</a></li>
+      <li><a href="achievements.html" class="nav-item">Achievements</a></li>
+      <li><a href="resume.html" class="">Resume</a></li>
+      <li><a href="self-eval.html" class="nav-item">Self-Eval</a></li>
+      <li><a href="roadmap.html" class="nav-item">Roadmap</a></li>
+                  <li><a href="pdp.html">Dev Plan</a></li>
+            <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main class="edu-container">
+    <h1 class="page-title reveal-on-scroll">Academic & Leadership Experiences</h1>
+    
+    <div class="interests-container reveal-on-scroll delay-1">
+      <span class="interest-chip">Scientific Research</span>
+      <span class="interest-chip">STEM Education</span>
+      <span class="interest-chip">Programming & Informatics</span>
+      <span class="interest-chip">Innovation & Entrepreneurship</span>
+      <span class="interest-chip">Tech for Social Impact</span>
+    </div>
+
+    <div class="timeline">
+
+      <div class="timeline-block">
+        <div class="timeline-dot reveal-on-scroll"></div>
+        
+        <div class="school-header reveal-on-scroll">
+          <div class="school-logo">
+            <img src="img/dut.webp" alt="DUT Logo" onerror="this.src='https://via.placeholder.com/100?text=DUT'">
+          </div>
+          <div class="school-info">
+            <h2>Da Nang University of Technology</h2>
+            <span class="school-period">2025 — Present</span>
+          </div>
+        </div>
+
+        <h3 class="semester-label reveal-on-scroll">Semester 2</h3>
+        <div class="bento-grid">
+          
+          <div class="glass-card reveal-on-scroll delay-1">
+            <div class="card-img-wrapper">
+              <span class="highlight-badge">Startup Training</span>
+              <img src="img/bk_shark.jpg" alt="BK SHARK" onerror="this.style.background='linear-gradient(135deg,#ede9fe,#ddd6fe)'; this.alt='';">
+            </div>
+            <h3 class="card-title">BK SHARK Participant</h3>
+            <div class="card-desc">
+              <ul>
+                <li>Participated in BK SHARK entrepreneurship training and startup development activities.</li>
+                <li>Learned fundamentals of business modeling, pitching, and innovation management.</li>
+                <li>Worked with interdisciplinary teams to develop and refine startup ideas.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="glass-card reveal-on-scroll delay-2">
+            <div class="card-img-wrapper">
+              <span class="highlight-badge">BK Techshow</span>
+              <img src="img/efast_bk.jpg" alt="EFAST Organizing Committee" onerror="this.style.background='linear-gradient(135deg,#ffedd5,#fed7aa)'; this.alt='';">
+            </div>
+            <h3 class="card-title">Organizing Committee – EFAST</h3>
+            <div class="card-desc">
+              <ul>
+                <li>Served as a member of the organizing committee for EFAST within BK Techshow.</li>
+                <li>Coordinated event logistics, participant support, and operational activities.</li>
+                <li>Contributed to creating a professional and engaging experience for attendees.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+        <h3 class="semester-label reveal-on-scroll">Semester 1</h3>
+        <div class="bento-grid">
+          
+          <div class="glass-card reveal-on-scroll delay-1">
+            <div class="card-img-wrapper">
+              <span class="highlight-badge">GPA: 3.39/4.00</span>
+              <img src="img/gpa_dut.png" alt="Academic Achievement" onerror="this.style.background='linear-gradient(135deg,#fce7f3,#fbcfe8)'; this.alt='';">
+            </div>
+            <h3 class="card-title">Strong Academic Achievement</h3>
+            <div class="card-desc">
+              <p>Demonstrated solid academic performance while actively engaging in extracurricular activities.</p>
+            </div>
+          </div>
+
+          <div class="glass-card reveal-on-scroll delay-2">
+            <div class="card-img-wrapper">
+              <span class="highlight-badge">Score: 10-10-10</span>
+              <img src="img/qs.jpg" alt="Military Training" onerror="this.style.background='linear-gradient(135deg,#d1fae5,#a7f3d0)'; this.alt='';">
+            </div>
+            <h3 class="card-title">Military Training Excellence</h3>
+            <div class="card-desc">
+              <ul>
+                <li>Completed National Defense and Security Education with outstanding results.</li>
+                <li>Achieved near-perfect marksmanship scores (Practice: 10-10-10; Final: 10-10-9).</li>
+                <li>Recognized for discipline, precision, and commitment throughout the training program.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="glass-card reveal-on-scroll delay-3">
+            <div class="card-img-wrapper">
+              <span class="highlight-badge">Innovation</span>
+              <img src="img/apec.png" alt="APEC Innovation Program" onerror="this.style.background='linear-gradient(135deg,#fef3c7,#fde68a)'; this.alt='';">
+            </div>
+            <h3 class="card-title">APEC Innovation Program</h3>
+            <div class="card-desc">
+              <ul>
+                <li>Participated in innovation and entrepreneurship activities under the APEC Innovation Program.</li>
+                <li>Collaborated with students from diverse backgrounds to explore technology-driven solutions.</li>
+                <li>Enhanced skills in innovation, teamwork, and project development.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="timeline-block">
+        <div class="timeline-dot reveal-on-scroll"></div>
+        
+        <div class="school-header reveal-on-scroll">
+          <div class="school-logo">
+            <img src="img/eahleo.webp" alt="Ea H'leo Logo" onerror="this.src='https://via.placeholder.com/100?text=THPT'">
+          </div>
+          <div class="school-info">
+            <h2>High School Ea H'leo</h2>
+            <span class="school-period">2022 — 2025</span>
+          </div>
+        </div>
+
+        <h3 class="semester-label reveal-on-scroll">Academic & Leadership Experiences</h3>
+        <div class="bento-grid">
+          
+          <div class="glass-card reveal-on-scroll delay-1">
+            <div class="card-img-wrapper">
+              <span class="highlight-badge">GPA: 9.2/10</span>
+              <img src="img/tinhoc.jpg" alt="Academic Performance" onerror="this.style.background='linear-gradient(135deg,#dbeafe,#bfdbfe)'; this.alt='';">
+            </div>
+            <h3 class="card-title">Academic & Informatics Excellence</h3>
+            <div class="card-desc">
+              <ul>
+                <li>Consistently ranked among the top-performing students in academic studies.</li>
+                <li>Achieved the highest Informatics examination score in the district with a score of 9.5/10.</li>
+                <li>Selected as a member of the National Excellent Student Competition training team in Informatics.</li>
+                <li>Received advanced training in algorithms, programming, and computational thinking.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="glass-card reveal-on-scroll delay-2">
+            <div class="card-img-wrapper">
+              <span class="highlight-badge">Research Team</span>
+              <img src="img/hs_research.jpg" alt="Scientific Research" onerror="this.style.background='linear-gradient(135deg,#f3e8ff,#e9d5ff)'; this.alt='';">
+            </div>
+            <h3 class="card-title">Scientific Research Club Member</h3>
+            <div class="card-desc">
+              <ul>
+                <li>Participated in school-level scientific research projects focused on social and educational issues.</li>
+                <li>Assisted in data collection, literature review, and report preparation.</li>
+                <li>Developed analytical thinking, teamwork, and problem-solving skills through research activities.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="glass-card reveal-on-scroll delay-3">
+            <div class="card-img-wrapper">
+              <span class="highlight-badge">Mentor Role</span>
+              <img src="img/hs_mentor.jpg" alt="STEM Mentor" onerror="this.style.background='linear-gradient(135deg,#ccfbf1,#99f6e4)'; this.alt='';">
+            </div>
+            <h3 class="card-title">STEM & Research Mentor</h3>
+            <div class="card-desc">
+              <ul>
+                <li>Guided junior students in STEM projects and scientific research competitions.</li>
+                <li>Supported students in brainstorming ideas, designing experiments, and preparing presentations.</li>
+                <li>Helped create a collaborative learning environment for aspiring researchers.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const revealElements = document.querySelectorAll('.reveal-on-scroll');
+      
+      const revealOptions = {
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px"
+      };
+
+      const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) {
+            return;
+          } else {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, revealOptions);
+
+      revealElements.forEach(el => {
+        revealOnScroll.observe(el);
+      });
+    });
+  </script>
+
+</body>
+</html>

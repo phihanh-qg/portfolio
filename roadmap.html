@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phạm Phi Khanh — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & VARIABLES ── */
+:root {
+  --bg-color: #f8fafc;
+  --accent: #059669; 
+  --accent-light: rgba(5, 150, 105, 0.08);
+  --accent-glow: rgba(5, 150, 105, 0.4);
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --border-glass: rgba(255, 255, 255, 0.7);
+  --shadow-card: 0 15px 35px rgba(15, 23, 42, 0.05);
+  --shadow-hover: 0 30px 60px rgba(5, 150, 105, 0.12);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; font-style: normal !important; }
+
+body {
+  font-family: 'Inter', sans-serif; color: var(--text-main);
+  background-color: var(--bg-color); overflow-x: hidden; 
+}
+
+h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+/* ── NỀN KẺ Ô & ÁNH SÁNG BAY ── */
+.grid-bg {
+  position: fixed; inset: 0; z-index: -10;
+  background-image: radial-gradient(var(--accent-light) 1.5px, transparent 1.5px);
+  background-size: 35px 35px;
+}
+.ambient-bg { position: fixed; inset: 0; z-index: -9; overflow: hidden; pointer-events: none; }
+.orb { position: absolute; border-radius: 50%; filter: blur(100px); animation: floatUpOrb linear infinite; opacity: 0.4; }
+.orb-1 { width: 450px; height: 450px; background: #a7f3d0; left: -5%; top: 10%; animation-duration: 25s; }
+.orb-2 { width: 550px; height: 550px; background: #bfdbfe; right: -5%; bottom: 10%; animation-duration: 22s; animation-delay: -5s; }
+.orb-3 { width: 350px; height: 350px; background: #86efac; left: 40%; top: 30%; animation-duration: 18s; animation-delay: -10s; }
+
+@keyframes floatUpOrb {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-50px) scale(1.1); }
+}
+
+/* ── NAVIGATION ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; height: 75px;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 5%; background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,0.04);
+  z-index: 1000; transition: all 0.3s ease;
+}
+.logo { font-weight: 800; font-size: 22px; letter-spacing: -0.5px; }
+.logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { text-decoration: none; color: var(--text-muted); font-size: 14px; font-weight: 700; transition: 0.3s; position: relative; }
+.nav-links a.active, .nav-links a:hover { color: var(--accent); }
+.nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 2px; background: var(--accent); transition: 0.3s ease; }
+.nav-links a.active::after { width: 100%; }
+
+/* ── SCROLL CONTAINER ── */
+.scroll-container { height: 100vh; overflow-y: scroll; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+.snap-section { min-height: 100vh; width: 100vw; scroll-snap-align: start; position: relative; display: flex; align-items: center; padding: 100px 5% 50px; }
+
+/* ── CÁC PHẦN CHUNG ── */
+.eyebrow { font-size: 11px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
+.eyebrow::before { content: ''; width: 30px; height: 2px; background: var(--accent); display: block; }
+.section-title { font-size: clamp(2.5rem, 4vw, 4rem); font-weight: 800; letter-spacing: -1.5px; margin-bottom: 1.5rem; color: var(--text-main); line-height: 1.1; }
+
+.reveal { opacity: 0; transform: translateY(40px); filter: blur(8px); transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); }
+.reveal.is-visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+/* ── ROADMAP SECTION (VERTICAL DESIGN) ── */
+.roadmap-layout { display: flex; flex-direction: column; justify-content: center; max-width: 1000px; margin: 0 auto; width: 100%; }
+.roadmap-subtitle { font-size: 1.05rem; color: var(--text-muted); font-weight: 500; margin-bottom: 3rem; max-width: 700px; line-height: 1.6; }
+
+.roadmap-wrapper {
+  position: relative;
+  padding-left: 60px; /* Nhường chỗ cho line và dot */
+  margin-top: 2rem;
+}
+
+/* Thanh ánh sáng dọc */
+.timeline-line {
+  position: absolute;
+  left: 20px;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--accent) 0%, rgba(5, 150, 105, 0.1) 100%);
+  border-radius: 4px;
+  transform-origin: top;
+  transform: scaleY(0);
+  transition: transform 2s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+}
+.roadmap-wrapper.is-visible .timeline-line { transform: scaleY(1); }
+
+/* Các node dọc */
+.rm-node {
+  position: relative;
+  margin-bottom: 3.5rem;
+  opacity: 0;
+  transform: translateY(40px) scale(0.98);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.roadmap-wrapper.is-visible .rm-node { opacity: 1; transform: translateY(0) scale(1); }
+.roadmap-wrapper.is-visible .rm-node:nth-child(2) { transition-delay: 0.1s; }
+.roadmap-wrapper.is-visible .rm-node:nth-child(3) { transition-delay: 0.3s; }
+.roadmap-wrapper.is-visible .rm-node:nth-child(4) { transition-delay: 0.5s; }
+.roadmap-wrapper.is-visible .rm-node:nth-child(5) { transition-delay: 0.7s; }
+.roadmap-wrapper.is-visible .rm-node:nth-child(6) { transition-delay: 0.9s; }
+
+/* Chấm rung động */
+.rm-dot {
+  position: absolute;
+  left: -54px; /* Căn giữa line */
+  top: 35px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bg-color);
+  border: 4px solid var(--accent);
+  box-shadow: 0 0 0 0 var(--accent-glow);
+  animation: pulseGlow 2.5s infinite cubic-bezier(0.66, 0, 0, 1);
+  z-index: 2;
+}
+.rm-node.future .rm-dot { background: #fff; border-color: rgba(5, 150, 105, 0.3); animation: none; }
+.rm-node.final .rm-dot { background: #fff; border-color: var(--accent); animation: pulseGlow 2s infinite; }
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 0 0 var(--accent-glow); }
+  70% { box-shadow: 0 0 0 20px rgba(5, 150, 105, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0); }
+}
+
+/* Thẻ kính */
+.rm-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--border-glass);
+  border-radius: 24px;
+  padding: 2.2rem;
+  box-shadow: var(--shadow-card);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.rm-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(5, 150, 105, 0.3);
+  background: #fff;
+}
+.rm-node.final .rm-card {
+  background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(209, 250, 229, 0.4));
+  border: 2px solid var(--accent);
+  box-shadow: 0 20px 40px rgba(5, 150, 105, 0.15);
+}
+
+.rm-year { font-size: 12px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 0.6rem; }
+.rm-stage { font-size: 1.4rem; font-weight: 800; color: var(--text-main); margin-bottom: 1.2rem; line-height: 1.3; }
+.rm-node.final .rm-stage { color: var(--accent); font-size: 1.5rem; }
+
+.rm-items { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.2rem; }
+.rm-items li { font-size: 0.95rem; color: var(--text-muted); font-weight: 500; padding-left: 20px; position: relative; line-height: 1.5; }
+.rm-items li::before { content: '›'; position: absolute; left: 0; color: var(--accent); font-weight: 800; font-size: 1.2rem; line-height: 1; top: -2px; }
+
+.rm-fix { font-size: 0.85rem; font-weight: 600; color: var(--accent); margin-top: auto; background: rgba(5, 150, 105, 0.08); padding: 10px 15px; border-radius: 10px; display: inline-block; border: 1px solid rgba(5, 150, 105, 0.15); }
+.rm-fix::before { content: '↑'; margin-right: 6px; font-weight: 900; }
+
+@media (max-width: 768px) {
+  .roadmap-wrapper { padding-left: 40px; margin-top: 1rem; }
+  .timeline-line { left: 16px; width: 3px; }
+  .rm-dot { left: -35px; width: 22px; height: 22px; border-width: 3px; top: 38px; }
+  .rm-card { padding: 1.8rem; }
+}
+
+/* ── ẨN CÁC PHẦN KHÁC ĐỂ TẬP TRUNG (GIỮ NGUYÊN CSS NẾU BẠN GHÉP VÀO INDEX CHÍNH) ── */
+/* Code css cho hero, about, edu, v.v... vui lòng lấy từ file index trước đó. Mình chỉ viết style chính cho Roadmap ở đây để code khỏi quá dài */
+</style>
+</head>
+<body>
+
+  <div class="grid-bg"></div>
+  <div class="ambient-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <nav>
+    <div class="logo">Phi<span>Khanh</span></div>
+    <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About me</a></li>
+        <li><a href="education.html">Education</a></li>
+        <li><a href="teamwork.html">Teamwork & Experience</a></li>
+        <li><a href="achievements.html" class="nav-item">Achievements</a></li>
+        <li><a href="resume.html" class="">Resume</a></li>
+        <li><a href="self-eval.html" >Self-Eval</a></li>
+      <li><a href="#" class="nav-item active">Roadmap</a></li>
+      <li><a href="pdp.html">Dev Plan</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main class="scroll-container">
+
+    <section id="roadmap" class="snap-section">
+      <div class="roadmap-layout">
+        
+        <div class="reveal">
+          <div class="eyebrow">Roadmap</div>
+          <h1 class="section-title" style="margin-bottom:0.5rem;">Portrait of a Graduate</h1>
+          <p class="roadmap-subtitle">Built directly from the weaknesses identified in self-evaluation. Each milestone addresses a specific gap — it's a concrete plan, not a wishlist.</p>
+        </div>
+
+        <div class="roadmap-wrapper reveal" id="timeline">
+          <div class="timeline-line"></div>
+
+          <div class="rm-node active">
+            <div class="rm-dot"></div>
+            <div class="rm-card">
+              <div class="rm-year">2025 — NOW</div>
+              <div class="rm-stage">Foundation & Self-awareness</div>
+              <ul class="rm-items">
+                <li>GPA 3.39</li>
+                <li>2 research projects completed</li>
+                <li>Identified concrete strengths & weaknesses</li>
+                <li>Chose IoT Security as specialty</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="rm-node future">
+            <div class="rm-dot"></div>
+            <div class="rm-card">
+              <div class="rm-year">End of Year 2 · 2027</div>
+              <div class="rm-stage">Language, Networks & Proactivity</div>
+              <ul class="rm-items">
+                <li>IELTS 6.5 — official exam</li>
+                <li>CompTIA Network+ or CCNA</li>
+                <li>Join technical club at DUT</li>
+                <li>GPA target ≥ 3.5</li>
+              </ul>
+              <span class="rm-fix">Fixes: passive follower · weak English · no networking base</span>
+            </div>
+          </div>
+
+          <div class="rm-node future">
+            <div class="rm-dot"></div>
+            <div class="rm-card">
+              <div class="rm-year">Year 3 · 2027–2028</div>
+              <div class="rm-stage">Security depth & real delegation</div>
+              <ul class="rm-items">
+                <li>CEH or CompTIA Security+</li>
+                <li>Internship — IoT/Embedded Security</li>
+                <li>CTF competitions — ≥ 2 events</li>
+                <li>Peer feedback after every project</li>
+              </ul>
+              <span class="rm-fix">Fixes: over-absorbing work · unprepared for hard questions</span>
+            </div>
+          </div>
+
+          <div class="rm-node future">
+            <div class="rm-dot"></div>
+            <div class="rm-card">
+              <div class="rm-year">Year 4 · 2028–2029</div>
+              <div class="rm-stage">Graduation thesis & job-ready</div>
+              <ul class="rm-items">
+                <li>Thesis on IoT Security</li>
+                <li>≥ 3 public GitHub projects</li>
+                <li>Apply: Junior Security Engineer</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="rm-node final">
+            <div class="rm-dot"></div>
+            <div class="rm-card">
+              <div class="rm-year">1–3 YRS POST-GRADUATION</div>
+              <div class="rm-stage">IoT Security Specialist</div>
+              <ul class="rm-items">
+                <li>IoT Security Engineer at product co. or MSSP</li>
+                <li>OSCP within 2 years of working</li>
+                <li>Explore Master's / PhD if scholarship available</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal, .roadmap-wrapper').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

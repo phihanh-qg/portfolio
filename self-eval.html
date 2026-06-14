@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self-Evaluation, Phạm Phi Khanh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ── THEME SETUP ── */
+        :root {
+            --bg-color: #f8fafc;
+            --accent: #059669;
+            --accent-light: rgba(5, 150, 105, 0.08);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --glass: rgba(255, 255, 255, 0.85);
+            --border: rgba(226, 232, 240, 0.8);
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 30px 60px rgba(5, 150, 105, 0.15);
+            --strength: #059669;
+            --weakness: #e11d48;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            background-color: var(--bg-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        /* ── ANIMATED BACKGROUND ── */
+        .grid-bg {
+            position: fixed; inset: 0; z-index: -10;
+            background-image: radial-gradient(var(--accent-light) 1.5px, transparent 1.5px);
+            background-size: 35px 35px;
+        }
+        .ambient-orb {
+            position: fixed; border-radius: 50%; filter: blur(120px);
+            z-index: -9; opacity: 0.35;
+            animation: orbMove 20s infinite alternate ease-in-out;
+        }
+        .orb-1 { width: 500px; height: 500px; background: #a7f3d0; top: -5%; left: -5%; }
+        .orb-2 { width: 600px; height: 600px; background: #bfdbfe; bottom: -5%; right: -5%; animation-delay: -5s; }
+        @keyframes orbMove {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(60px, 40px) scale(1.1); }
+        }
+
+        /* ── NAVIGATION ── */
+        nav {
+            position: fixed; top: 0; width: 100%; height: 75px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 5%; background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px); z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+        .logo { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 14px; font-weight: 700; transition: 0.3s; }
+        .nav-links a.active, .nav-links a:hover { color: var(--accent); }
+
+        /* ── SCROLL ANIMATIONS ── */
+        .reveal {
+            opacity: 0; transform: translateY(40px) scale(0.98); filter: blur(10px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+
+        /* ── CONTENT STRUCTURE ── */
+        .container { max-width: 1300px; margin: 0 auto; padding: 130px 5% 100px; }
+        .section-header { text-align: center; margin-bottom: 80px; }
+        .section-header h1 { font-size: clamp(2.5rem, 4vw, 4rem); letter-spacing: -2px; margin-bottom: 15px; font-weight: 800; }
+        .section-header p { color: var(--text-muted); font-size: 1.1rem; max-width: 650px; margin: 0 auto; font-weight: 500; }
+
+        .trait-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; margin-bottom: 100px; }
+        .trait-grid.reverse { direction: rtl; }
+        .trait-grid.reverse > * { direction: ltr; }
+
+        /* ── WIDGET DESIGN ── */
+        .widget {
+            background: var(--glass); backdrop-filter: blur(24px);
+            border: 1px solid var(--border); border-radius: 28px; padding: 35px; 
+            box-shadow: var(--shadow); position: relative; transition: 0.4s;
+            overflow: hidden;
+        }
+        .widget::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, var(--accent), #34d399); }
+        .widget:hover { transform: translateY(-6px); border-color: rgba(5,150,105,0.3); box-shadow: var(--shadow-hover); }
+        .widget-tag { font-size: 11px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; display: flex; align-items: center; gap: 8px; }
+        .widget-tag::before { content: ''; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }
+
+        /* 1. Analyst MCQ */
+        .mcq-box { display: flex; flex-direction: column; gap: 12px; }
+        .mcq-item { background: #fff; padding: 16px; border-radius: 14px; border: 1px solid #f1f5f9; transition: 0.3s; }
+        .mcq-item:hover { border-color: var(--accent); background: var(--accent-light); }
+        .mcq-q { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
+        .mcq-a { font-size: 15px; font-weight: 800; color: var(--text-main); }
+        .mcq-a span { color: var(--accent); margin-right: 5px; }
+
+        /* 2. Harmonizer Radar */
+        .radar-box { display: flex; flex-direction: column; gap: 20px; }
+        .radar-row { position: relative; }
+        .radar-labels { display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; }
+        .radar-track { height: 10px; background: #e2e8f0; border-radius: 20px; overflow: hidden; }
+        .radar-fill { height: 100%; background: linear-gradient(90deg, #34d399, var(--accent)); border-radius: 20px; }
+
+        /* 3. INFP Questionnaire List */
+        .mbti-result { font-size: 36px; font-weight: 800; color: var(--accent); text-align: center; margin-bottom: 20px; letter-spacing: -1px; }
+        .mbti-section { margin-bottom: 15px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 15px; }
+        .mbti-section:last-child { border: none; padding-bottom: 0; margin-bottom: 0; }
+        .mbti-title { font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; letter-spacing: 1px; }
+        .mbti-item { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+        .mbti-item:last-child { margin-bottom: 0; }
+        .mbti-q { font-size: 13px; font-weight: 600; color: var(--text-main); }
+        .mbti-ans { font-size: 13px; font-weight: 700; color: var(--accent); background: var(--accent-light); padding: 8px 12px; border-radius: 8px; display: inline-block; }
+
+        /* 4. Active Listener Checklist */
+        .check-list { display: grid; gap: 10px; }
+        .check-item { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; padding: 12px 16px; background: #fff; border-radius: 12px; border: 1px solid #f1f5f9; transition: 0.3s; }
+        .check-item:hover { border-color: var(--accent); transform: translateX(5px); }
+        .check-icon { color: var(--accent); font-weight: 900; background: var(--accent-light); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 12px; flex-shrink: 0; }
+
+        /* 5. Decision Matrix */
+        .matrix-wrap { overflow-x: auto; margin-top: 10px; border-radius: 16px; border: 1px solid #e2e8f0; background: #fff; }
+        .matrix-table { width: 100%; min-width: 650px; border-collapse: collapse; text-align: center; font-size: 13px; }
+        .matrix-table th { padding: 12px; color: var(--text-muted); font-weight: 800; background: #f8fafc; border-bottom: 2px solid #e2e8f0; }
+        .matrix-table td { padding: 12px; border-bottom: 1px solid #f1f5f9; color: var(--text-muted); }
+        .matrix-table td.stmt { text-align: left; font-weight: 600; color: var(--text-main); width: 65%; line-height: 1.4; }
+        .matrix-table td.check { color: var(--accent); font-weight: 900; font-size: 16px; background: var(--accent-light); }
+        .matrix-table tr.active { background: #f8fafc; }
+        .matrix-score { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px 20px; border-radius: 12px; border: 1px solid #e2e8f0; margin-top: 15px; }
+
+        /* ── TEXT CONTENT ── */
+        .content h2 { font-size: clamp(2rem, 3vw, 2.5rem); letter-spacing: -1px; margin-bottom: 20px; line-height: 1.15; color: var(--text-main); }
+        .content p { font-size: 16px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.7; font-weight: 500; }
+        .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 25px; }
+        .pill { padding: 8px 16px; background: #fff; border: 1px solid var(--border); border-radius: 100px; font-size: 13px; font-weight: 700; color: var(--text-main); box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+
+        /* Analysis Box */
+        .analysis { background: rgba(255,255,255,0.9); border-radius: 20px; padding: 25px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+        .analysis-quote { font-size: 14px; font-style: italic; color: var(--text-main); padding-left: 15px; border-left: 3px solid var(--accent); margin-bottom: 20px; }
+        .analysis-row { display: flex; gap: 15px; margin-bottom: 12px; align-items: flex-start; }
+        .analysis-label { font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 4px 8px; border-radius: 6px; letter-spacing: 1px; flex-shrink: 0; margin-top: 2px; }
+        .label-s { background: var(--strength-bg); color: var(--strength); }
+        .label-w { background: var(--weakness-bg); color: var(--weakness); }
+        .analysis-text { font-size: 14px; font-weight: 600; line-height: 1.5; color: var(--text-main); }
+        .fix-banner { background: var(--accent-light); border-radius: 10px; padding: 12px 15px; font-size: 13px; font-weight: 700; color: var(--accent); margin-top: 15px; display: flex; align-items: center; gap: 8px; }
+
+        /* ── STRATEGIC SUMMARY (SWOT) ── */
+        .summary-dashboard { margin-top: 100px; padding-top: 100px; border-top: 1px solid var(--border); }
+        .summary-header { text-align: center; margin-bottom: 60px; }
+        .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        
+        .swot-card { padding: 40px; border-radius: 32px; position: relative; overflow: hidden; transition: 0.4s; background: #fff; }
+        .swot-card:hover { transform: translateY(-5px); }
+        .swot-card.strengths { border: 1px solid rgba(5,150,105,0.2); box-shadow: 0 20px 40px rgba(5,150,105,0.06); }
+        .swot-card.weaknesses { border: 1px solid rgba(220,38,38,0.2); box-shadow: 0 20px 40px rgba(220,38,38,0.06); }
+        
+        .swot-card h3 { font-size: 28px; margin-bottom: 30px; display: flex; align-items: center; gap: 12px; letter-spacing: -0.5px; }
+        .swot-card.strengths h3 { color: var(--accent); }
+        .swot-card.weaknesses h3 { color: var(--weakness); }
+        
+        .swot-list { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+        .swot-list li { font-size: 16px; font-weight: 600; color: var(--text-main); display: flex; gap: 15px; line-height: 1.5; }
+        .swot-card.strengths .swot-list li::before { content: '✓'; color: #fff; background: var(--accent); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 12px; font-weight: 900; flex-shrink: 0; margin-top: 2px; }
+        .swot-card.weaknesses .swot-list li::before { content: '✕'; color: #fff; background: var(--weakness); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 12px; font-weight: 900; flex-shrink: 0; margin-top: 2px; }
+
+        @media (max-width: 1024px) {
+            .trait-grid { grid-template-columns: 1fr; gap: 40px; margin-bottom: 80px; }
+            .trait-grid.reverse { direction: ltr; }
+            .summary-grid { grid-template-columns: 1fr; }
+            .matrix-wrap { overflow-x: scroll; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grid-bg"></div>
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+
+    <nav>
+        <div class="logo">Phi<span>Khanh</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About me</a></li>
+            <li><a href="education.html">Education</a></li>
+            <li><a href="teamwork.html">Teamwork & Experience</a></li>
+            <li><a href="achievements.html" class="nav-item">Achievements</a></li>
+            <li><a href="resume.html" class="">Resume</a></li>
+            <li><a href="self-eval.html" class="active">Self Eval</a></li>
+            <li><a href="roadmap.html" >Roadmap</a></li>
+            <li><a href="pdp.html" >Dev Plan</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        
+        <header class="section-header reveal">
+            <h1>Self-Evaluation</h1>
+            <p>A strategic psychological and professional profile based on validated assessments and project evidence.</p>
+        </header>
+
+        <div class="trait-grid">
+            <div class="widget reveal">
+                <span class="widget-tag">Team Role Simulation</span>
+                <div class="mcq-box">
+                    <div class="mcq-item">
+                        <p class="mcq-q">1. When starting a project, I prefer to:</p>
+                        <p class="mcq-a"><span>B.</span> Organize the plan</p>
+                    </div>
+                    <div class="mcq-item">
+                        <p class="mcq-q">2. In group discussions I usually:</p>
+                        <p class="mcq-a"><span>A.</span> Suggest creative ideas</p>
+                    </div>
+                    <div class="mcq-item">
+                        <p class="mcq-q">3. When deadlines approach I usually:</p>
+                        <p class="mcq-a"><span>C.</span> Check quality</p>
+                    </div>
+                    <div class="mcq-item">
+                        <p class="mcq-q">4. My teammates often say I am:</p>
+                        <p class="mcq-a"><span>C.</span> Analytical</p>
+                    </div>
+                </div>
+            </div>
+            <div class="content reveal">
+                <h2>The Analyst</h2>
+                <div class="pills">
+                    <span class="pill">Analytical Thinking</span>
+                    <span class="pill">Critical Thinking</span>
+                    <span class="pill">Evidence-Based</span>
+                    <span class="pill">Attention to Detail</span>
+                </div>
+                <p>I approach challenges by seeking to understand underlying causes. Before making decisions, I gather information, examine perspectives, and identify root problems. I transform complex data into well-reasoned actions.</p>
+                <div class="analysis">
+                    <div class="analysis-quote">"Across all three projects, I identified non-obvious patterns from survey response clusters to navigation failure modes."</div>
+                    <div class="analysis-row">
+                        <span class="analysis-label label-s">Strength</span>
+                        <p class="analysis-text">Adds depth and catches blind spots in group decisions.</p>
+                    </div>
+                    <div class="analysis-row">
+                        <span class="analysis-label label-w">Weakness</span>
+                        <p class="analysis-text">Risk of over-analyzing before acting (Decision Paralysis).</p>
+                    </div>
+                    <div class="fix-banner"><span>→</span> FIX: Time-box analysis; share insights at 80% completion.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="trait-grid reverse">
+            <div class="widget reveal">
+                <span class="widget-tag">Collaboration Dashboard</span>
+                <div class="radar-box">
+                    <div class="radar-row">
+                        <div class="radar-labels"><span style="color:var(--text-main);">Task Focus</span><span style="color:var(--accent);">People Focus</span></div>
+                        <div class="radar-track"><div class="radar-fill" style="width: 85%;"></div></div>
+                    </div>
+                    <div class="radar-row">
+                        <div class="radar-labels"><span style="color:var(--text-main);">Independent</span><span style="color:var(--accent);">Highly Collaborative</span></div>
+                        <div class="radar-track"><div class="radar-fill" style="width: 92%;"></div></div>
+                    </div>
+                    <div class="radar-row">
+                        <div class="radar-labels"><span style="color:var(--text-main);">Debater</span><span style="color:var(--accent);">Mediator</span></div>
+                        <div class="radar-track"><div class="radar-fill" style="width: 80%;"></div></div>
+                    </div>
+                </div>
+                <div style="margin-top: 25px; background: #f8fafc; border-radius: 12px; padding: 15px; border: 1px solid #e2e8f0;">
+                    <p style="font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 5px;">Primary response to conflict:</p>
+                    <p style="font-size: 15px; font-weight: 800; color: var(--accent);">Focus on maintaining team harmony</p>
+                </div>
+            </div>
+            <div class="content reveal">
+                <h2>The Harmonizer</h2>
+                <div class="pills">
+                    <span class="pill">Empathy</span>
+                    <span class="pill">Active Listening</span>
+                    <span class="pill">Relationship Building</span>
+                    <span class="pill">Conflict Resolution</span>
+                </div>
+                <p>I strive to create an atmosphere where everyone feels valued. By paying attention to team dynamics, I ensure different voices are included in the decision-making process, turning disagreements into collaborative outcomes.</p>
+                <div class="analysis">
+                    <div class="analysis-quote">"In Research #2, I de-escalated tension by acknowledging effort before redirecting. In the Robot project, I mediated design conflicts."</div>
+                    <div class="analysis-row">
+                        <span class="analysis-label label-s">Strength</span>
+                        <p class="analysis-text">Maintains team cohesion and psychological safety under pressure.</p>
+                    </div>
+                    <div class="analysis-row">
+                        <span class="analysis-label label-w">Weakness</span>
+                        <p class="analysis-text">Absorbing others' workload to avoid conflict.</p>
+                    </div>
+                    <div class="fix-banner"><span>→</span> FIX: Delegation habit, ask for blockers before taking over.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="trait-grid">
+            <div class="widget reveal">
+                <span class="widget-tag">MBTI Personality Assessment</span>
+                <div class="mbti-result">INFP</div>
+                
+                <div class="mbti-section">
+                    <div class="mbti-title">Section 1: Introverts & Extroverts (E vs I)</div>
+                    <div class="mbti-item">
+                        <span class="mbti-q">Q1. When someone is speaking:</span>
+                        <span class="mbti-ans">A. I prefer to listen fully before responding (I)</span>
+                    </div>
+                    <div class="mbti-item">
+                        <span class="mbti-q">Q2. In group discussions:</span>
+                        <span class="mbti-ans">A. I listen and reflect before speaking (I)</span>
+                    </div>
+                </div>
+                
+                <div class="mbti-section">
+                    <div class="mbti-title">Section 2: Sensors & Intuitives (S vs N)</div>
+                    <div class="mbti-item">
+                        <span class="mbti-q">Q3. When receiving instructions:</span>
+                        <span class="mbti-ans">B. I want to understand the main idea (N)</span>
+                    </div>
+                    <div class="mbti-item">
+                        <span class="mbti-q">Q4. When listening to presentations:</span>
+                        <span class="mbti-ans">B. I focus on ideas and meaning (N)</span>
+                    </div>
+                </div>
+
+                <div class="mbti-section">
+                    <div class="mbti-title">Section 3: Thinkers & Feelers (T vs F)</div>
+                    <div class="mbti-item">
+                        <span class="mbti-q">Q5. When hearing a problem:</span>
+                        <span class="mbti-ans">B. I consider people's feelings (F)</span>
+                    </div>
+                    <div class="mbti-item">
+                        <span class="mbti-q">Q6. During conflict:</span>
+                        <span class="mbti-ans">B. I focus on maintaining harmony (F)</span>
+                    </div>
+                </div>
+
+                <div class="mbti-section">
+                    <div class="mbti-title">Section 4: Judgers & Perceivers (J vs P)</div>
+                    <div class="mbti-item">
+                        <span class="mbti-q">Q7. When listening:</span>
+                        <span class="mbti-ans">B. I prefer to explore more before deciding (P)</span>
+                    </div>
+                    <div class="mbti-item">
+                        <span class="mbti-q">Q8. In discussions:</span>
+                        <span class="mbti-ans">B. I like to keep options open (P)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content reveal">
+                <h2>INFP</h2>
+                <div class="pills">
+                    <span class="pill">Reflective</span>
+                    <span class="pill">Empathetic</span>
+                    <span class="pill">Value-Driven</span>
+                    <span class="pill">Curious Learner</span>
+                </div>
+                <p>I am a reflective individual motivated by learning and growth. I believe both logic and compassion are necessary to solve real-world problems effectively while staying true to personal principles.</p>
+                <div class="analysis">
+                    <div class="analysis-quote">"In Research #1, I chose youth mental health, a topic I genuinely cared about."</div>
+                    <div class="analysis-row">
+                        <span class="analysis-label label-s">Strength</span>
+                        <p class="analysis-text">Authenticity and deep care produce high-quality purposeful work.</p>
+                    </div>
+                    <div class="analysis-row">
+                        <span class="analysis-label label-w">Weakness</span>
+                        <p class="analysis-text">Blurring boundaries due to emotional over-investment.</p>
+                    </div>
+                    <div class="fix-banner"><span>→</span> FIX: Set clear scope of care before each project begins.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="trait-grid reverse">
+            <div class="widget reveal">
+                <span class="widget-tag">Listener Quality Evaluation</span>
+                <div class="check-list">
+                    <div class="check-item"><span class="check-icon">✔</span> 1. Be fully present</div>
+                    <div class="check-item"><span class="check-icon">✔</span> 2. Avoid distractions</div>
+                    <div class="check-item"><span class="check-icon">✔</span> 3. Use supportive non-verbal cues</div>
+                    <div class="check-item"><span class="check-icon">✔</span> 4. Paraphrase</div>
+                    <div class="check-item"><span class="check-icon">✔</span> 5. Recall previously shared information</div>
+                    <div class="check-item"><span class="check-icon">✔</span> 6. Ask open-ended questions</div>
+                    <div class="check-item"><span class="check-icon">✔</span> 7. Be empathetic and validate the speaker</div>
+                    <div class="check-item"><span class="check-icon">✔</span> 8. Share similar experiences</div>
+                    <div class="check-item"><span class="check-icon">✔</span> 9. Use positive body language</div>
+                    <div class="check-item"><span class="check-icon">✔</span> 10. Practice reflective pausing</div>
+                </div>
+            </div>
+            <div class="content reveal">
+                <h2>Active Listener</h2>
+                <div class="pills">
+                    <span class="pill">Observation</span>
+                    <span class="pill">Validation</span>
+                    <span class="pill">Inclusivity</span>
+                </div>
+                <p>True collaboration involves observing what is said and unsaid. By reading non-verbal cues and creating safe spaces for exchange, I help surface insights that teammates might otherwise hesitate to voice.</p>
+                <div class="analysis">
+                    <div class="analysis-quote">"In the Robot project, a quieter member had a key sensor insight. I noticed his hesitation and created space."</div>
+                    <div class="analysis-row">
+                        <span class="analysis-label label-s">Strength</span>
+                        <p class="analysis-text">Surfaces hidden ideas and makes teammates feel valued.</p>
+                    </div>
+                    <div class="analysis-row">
+                        <span class="analysis-label label-w">Weakness</span>
+                        <p class="analysis-text">Risk of passive contribution (listening without speaking).</p>
+                    </div>
+                    <div class="fix-banner"><span>→</span> FIX: Commit to sharing one insight per meeting early.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="trait-grid" style="grid-template-columns: 1fr; margin-bottom: 20px;">
+            <div class="widget reveal">
+                <span class="widget-tag">Decision-Making Style Matrix</span>
+                <div class="matrix-wrap">
+                    <table class="matrix-table">
+                        <thead>
+                            <tr>
+                                <th>Decision-Making Statements</th>
+                                <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="stmt">1. When I have to make an important decision, I usually seek the opinions of others.</td>
+                                <td></td><td></td><td></td><td class="check">✔</td><td></td>
+                            </tr>
+                            <tr>
+                                <td class="stmt">2. I tend to put off decisions on issues that make me uncomfortable or that are unpleasant.</td>
+                                <td></td><td></td><td class="check">✔</td><td></td><td></td>
+                            </tr>
+                            <tr class="active">
+                                <td class="stmt" style="color: var(--text-main);">3. I make decisions in a logical and systematic way.</td>
+                                <td></td><td></td><td></td><td></td><td class="check">✔</td>
+                            </tr>
+                            <tr>
+                                <td class="stmt">4. When making a decision, I usually trust feelings or gut instincts.</td>
+                                <td></td><td class="check">✔</td><td></td><td></td><td></td>
+                            </tr>
+                            <tr class="active">
+                                <td class="stmt" style="color: var(--text-main);">5. When making a decision, I generally consider the advantages and disadvantages of many alternatives.</td>
+                                <td></td><td></td><td></td><td></td><td class="check">✔</td>
+                            </tr>
+                            <tr>
+                                <td class="stmt">6. I often avoid making important decisions until I absolutely have to.</td>
+                                <td></td><td></td><td class="check">✔</td><td></td><td></td>
+                            </tr>
+                            <tr>
+                                <td class="stmt">7. I often make impulsive decisions.</td>
+                                <td></td><td class="check">✔</td><td></td><td></td><td></td>
+                            </tr>
+                            <tr>
+                                <td class="stmt">8. When making a decision, I rely on my instincts.</td>
+                                <td></td><td class="check">✔</td><td></td><td></td><td></td>
+                            </tr>
+                            <tr>
+                                <td class="stmt">9. It is easier for me to make important decisions when I know others approve or support them.</td>
+                                <td></td><td></td><td></td><td class="check">✔</td><td></td>
+                            </tr>
+                            <tr>
+                                <td class="stmt">10. I make decisions very quickly.</td>
+                                <td></td><td></td><td class="check">✔</td><td></td><td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="matrix-score">
+                    <span style="font-weight: 700; color: var(--text-muted);">Dominant Style (Q3 + Q5 Score: 10)</span>
+                    <span style="font-size: 20px; font-weight: 800; color: var(--accent);">RATIONAL THINKER</span>
+                </div>
+            </div>
+
+            <div class="content reveal" style="max-width: 800px; margin: 0 auto; text-align: center; margin-top: 20px;">
+                <h2>Rational Thinker</h2>
+                <p>I systematically weigh variables and objective data before reaching conclusions. This approach ensures stability and minimizes risk in technical environments like robotics and research.</p>
+                <div class="analysis" style="text-align: left; max-width: 700px; margin: 0 auto;">
+                    <div class="analysis-row">
+                        <span class="analysis-label label-s">Strength</span>
+                        <p class="analysis-text">Grounds decisions in hard data rather than external pressure.</p>
+                    </div>
+                    <div class="analysis-row">
+                        <span class="analysis-label label-w">Weakness</span>
+                        <p class="analysis-text">Neglecting limitation analysis (over-rationalizing success without testing boundaries).</p>
+                    </div>
+                    <div class="fix-banner"><span>→</span> FIX: Always prepare "What could fail?" scenarios.</div>
+                </div>
+            </div>
+        </div>
+
+        <section class="summary-dashboard reveal">
+            <div class="summary-header">
+                <h2>Strategic Balance Sheet</h2>
+                <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 10px auto 0; font-weight: 500;">A consolidated view of my core capabilities and the specific areas I am actively targeting for personal growth.</p>
+            </div>
+            
+            <div class="summary-grid">
+                <div class="swot-card strengths">
+                    <h3>Core Strengths</h3>
+                    <ul class="swot-list">
+                        <li>Deep listening surfaces hidden team insights and creates psychological safety.</li>
+                        <li>Advanced pattern recognition improves data quality and overall project depth.</li>
+                        <li>Maintains team harmony and prevents fragmentation under high-pressure deadlines.</li>
+                        <li>Evidence-based decision making significantly reduces strategic guesswork.</li>
+                    </ul>
+                </div>
+
+                <div class="swot-card weaknesses">
+                    <h3>Growth Opportunities</h3>
+                    <ul class="swot-list">
+                        <li>Reduce hesitation by sharing raw ideas earlier in the development process.</li>
+                        <li>Practice active delegation to avoid over-absorbing teammates' work.</li>
+                        <li>Establish emotional boundaries to separate personal support from project responsibility.</li>
+                        <li>Perform rigorous limitation analysis to prepare for hard "what if" technical questions.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+
+</body>
+</html>
