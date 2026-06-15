@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDP — Strategic Growth Plan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ── THEME SETUP ── */
+        :root {
+            --bg-color: #f8fafc;
+            --accent: #059669;
+            --accent-light: rgba(5, 150, 105, 0.08);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --glass: rgba(255, 255, 255, 0.8);
+            --border: rgba(226, 232, 240, 0.8);
+            --shadow: 0 20px 40px rgba(15, 23, 42, 0.06);
+            --warning: #ea580c;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            background-color: var(--bg-color);
+            overflow: hidden; /* Snap scroll handles overflow */
+        }
+
+        /* ── BACKGROUND ── */
+        .grid-bg {
+            position: fixed; inset: 0; z-index: -10;
+            background-image: radial-gradient(var(--accent-light) 1.5px, transparent 1.5px);
+            background-size: 40px 40px;
+        }
+
+        /* ── SNAP CONTAINER ── */
+        .snap-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        .goal-section {
+            height: 100vh;
+            width: 100vw;
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 6%;
+            overflow: hidden;
+        }
+
+        /* ── NAVIGATION ── */
+        nav {
+            position: fixed; top: 0; width: 100%; height: 80px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 6%; background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px); z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+        .logo { font-size: 22px; font-weight: 800; font-family: 'Plus Jakarta Sans'; }
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 14px; font-weight: 700; transition: 0.3s; }
+        .nav-links a.active { color: var(--accent); }
+
+        /* ── DECORATIVE ELEMENTS ── */
+        .big-num {
+            position: absolute;
+            font-size: 40rem;
+            font-weight: 900;
+            color: rgba(5, 150, 105, 0.03);
+            line-height: 1;
+            z-index: -1;
+            left: -5%;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            font-family: 'Plus Jakarta Sans';
+        }
+
+        /* ── MAIN CARD ── */
+        .pdp-card {
+            background: var(--glass);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 4rem;
+            width: 100%;
+            max-width: 1250px;
+            box-shadow: var(--shadow);
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 4rem;
+            position: relative;
+        }
+
+        /* ── LEFT COLUMN: GOAL INFO ── */
+        .goal-header { margin-bottom: 2.5rem; }
+        .goal-tag { font-size: 12px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem; display: block; }
+        .goal-title { font-size: 3rem; font-weight: 800; line-height: 1.1; margin-bottom: 1rem; letter-spacing: -2px; }
+        .goal-deadline { font-size: 1.1rem; font-weight: 700; color: var(--text-muted); margin-bottom: 2rem; display: flex; align-items: center; gap: 10px; }
+        .goal-deadline::before { content: '📅'; font-size: 1.2rem; }
+
+        .fixes-box {
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+            padding: 1.5rem;
+            border-radius: 20px;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+        .fixes-label { font-size: 11px; font-weight: 800; color: #e11d48; text-transform: uppercase; margin-bottom: 8px; display: block; }
+        .fixes-text { font-size: 0.95rem; font-weight: 600; color: #9f1239; line-height: 1.5; }
+
+        /* SMART GRID */
+        .smart-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+        }
+        .smart-item {
+            background: #fff;
+            padding: 1.2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            transition: 0.3s;
+        }
+        .smart-item:hover { border-color: var(--accent); transform: translateY(-5px); }
+        .smart-key { font-size: 1.5rem; font-weight: 900; color: var(--accent); margin-bottom: 5px; display: block; }
+        .smart-val { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); line-height: 1.4; }
+
+        /* ── RIGHT COLUMN: TRACKING ── */
+        .tracking-col {
+            background: rgba(248, 250, 252, 0.5);
+            border-radius: 30px;
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+        }
+        .progress-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.5rem; }
+        .progress-title { font-size: 0.9rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); }
+        .progress-pct { font-size: 2rem; font-weight: 800; color: var(--accent); font-family: 'Plus Jakarta Sans'; }
+
+        .progress-bar { height: 12px; background: #e2e8f0; border-radius: 20px; margin-bottom: 3rem; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #34d399, var(--accent)); border-radius: 20px; transition: 1.5s cubic-bezier(0.16, 1, 0.3, 1); width: 0; }
+
+        .milestone-list { display: flex; flex-direction: column; gap: 1.2rem; }
+        .milestone-item { display: flex; align-items: center; gap: 15px; }
+        .ms-status { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .ms-status.done { background: var(--accent); border-color: var(--accent); color: #fff; font-size: 12px; font-weight: 900; }
+        .ms-status.done::after { content: '✓'; }
+        .ms-status.prog { border-color: var(--accent); border-style: dashed; animation: rotate 4s linear infinite; }
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
+
+        .ms-info { flex-grow: 1; }
+        .ms-date { font-size: 11px; font-weight: 800; color: var(--accent); text-transform: uppercase; }
+        .ms-desc { font-size: 0.95rem; font-weight: 600; color: var(--text-main); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1100px) {
+            .pdp-card { grid-template-columns: 1fr; padding: 2.5rem; gap: 2.5rem; overflow-y: auto; max-height: 85vh; }
+            .goal-title { font-size: 2.2rem; }
+            .big-num { font-size: 20rem; }
+        }
+
+        /* ── LEARNING STRATEGIES SECTION ── */
+        .strategy-section {
+            height: 100vh;
+            width: 100vw;
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 5% 0;
+            overflow: hidden;
+        }
+
+        .strategy-wrapper {
+            width: 100%;
+            max-width: 1350px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            height: calc(100vh - 100px);
+            padding-bottom: 1rem;
+        }
+
+        .strategy-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .strategy-eyebrow {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.4rem;
+        }
+
+        .strategy-h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1;
+            font-family: 'Plus Jakarta Sans';
+        }
+
+        .formula-chip {
+            background: var(--accent);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 6px 14px;
+            border-radius: 30px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Tab row */
+        .strat-tabs {
+            display: flex;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .strat-tab {
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+            border: 1.5px solid var(--border);
+            background: #fff;
+            cursor: pointer;
+            transition: 0.2s;
+            color: var(--text-muted);
+        }
+
+        .strat-tab.active, .strat-tab:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        /* Panels */
+        .strat-panel { display: none; flex: 1; overflow: hidden; }
+        .strat-panel.active { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 1.5rem; }
+
+        /* ── CARD BASE ── */
+        .s-card {
+            background: rgba(255,255,255,0.9);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.4rem;
+        }
+
+        .s-card-title {
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        /* Formula block */
+        .formula-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            border-radius: 18px;
+            padding: 1.4rem 1.6rem;
+            font-family: 'Inter', monospace;
+            font-size: 0.85rem;
+            line-height: 1.8;
+            flex-shrink: 0;
+        }
+
+        .formula-block .f-label {
+            font-size: 10px;
+            font-weight: 800;
+            color: #34d399;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .formula-block .f-eq {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #a7f3d0;
+            font-family: 'Plus Jakarta Sans';
+            letter-spacing: -0.5px;
+        }
+
+        .formula-block .f-vars {
+            margin-top: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .formula-block .f-var {
+            display: flex;
+            gap: 8px;
+            font-size: 0.8rem;
+        }
+
+        .formula-block .f-var .fv-key { color: #6ee7b7; font-weight: 700; min-width: 80px; }
+        .formula-block .f-var .fv-desc { color: #94a3b8; }
+
+        /* Technique rows */
+        .technique-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .tech-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: var(--accent-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .tech-body { flex: 1; }
+        .tech-name { font-size: 0.9rem; font-weight: 800; margin-bottom: 2px; }
+        .tech-detail { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; line-height: 1.5; }
+        .tech-badge {
+            display: inline-block;
+            margin-top: 5px;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 800;
+            background: var(--accent-light);
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Tracker grid */
+        .tracker-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .tracker-cell {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1rem 1.2rem;
+            transition: 0.2s;
+        }
+
+        .tracker-cell:hover { border-color: var(--accent); }
+
+        .tc-label {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .tc-value {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans';
+            line-height: 1;
+        }
+
+        .tc-sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        /* Weekly plan */
+        .week-plan {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .week-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .wr-day {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--accent);
+            width: 28px;
+            text-transform: uppercase;
+        }
+
+        .wr-bar-wrap {
+            flex: 1;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .wr-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #34d399, var(--accent));
+            border-radius: 10px;
+        }
+
+        .wr-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            width: 120px;
+            text-align: right;
+        }
+
+        /* Spaced rep table */
+        .rep-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+        }
+
+        .rep-table th {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            padding: 6px 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .rep-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid rgba(226,232,240,0.5);
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .rep-table tr:last-child td { border-bottom: none; }
+
+        .interval-pill {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800;
+            background: var(--accent-light);
+            color: var(--accent);
+        }
+
+        /* KPI section */
+        .kpi-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .kpi-item {
+            flex: 1;
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .kpi-val {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--accent);
+            font-family: 'Plus Jakarta Sans';
+            line-height: 1;
+        }
+
+        .kpi-key {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Habit stack */
+        .habit-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .habit-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(226,232,240,0.6);
+        }
+
+        .habit-item:last-child { border-bottom: none; }
+
+        .habit-order {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--accent);
+            width: 20px;
+            text-align: center;
+        }
+
+        .habit-arrow {
+            font-size: 0.9rem;
+            color: var(--border);
+        }
+
+        .habit-name {
+            font-size: 0.85rem;
+            font-weight: 700;
+            flex: 1;
+        }
+
+        .habit-time {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        /* Review cadence */
+        .cadence-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .cadence-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: #f8fafc;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+        }
+
+        .cadence-freq {
+            font-size: 11px;
+            font-weight: 800;
+            color: #fff;
+            background: var(--accent);
+            border-radius: 8px;
+            padding: 4px 10px;
+            min-width: 70px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .cadence-freq.orange { background: #ea580c; }
+        .cadence-freq.purple { background: #7c3aed; }
+
+        .cadence-desc {
+            flex: 1;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .cadence-metric {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 1100px) {
+            .strat-panel.active { grid-template-columns: 1fr; overflow-y: auto; }
+            .strategy-h1 { font-size: 1.8rem; }
+            .strategy-section { padding: 80px 4% 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grid-bg"></div>
+
+    <nav>
+        <div class="logo">Phi<span>Khanh</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About me</a></li>
+            <li><a href="education.html">Education</a></li>
+            <li><a href="teamwork.html">Teamwork & Experience</a></li>
+            <li><a href="achievements.html" class="nav-item">Achievements</a></li>
+            <li><a href="resume.html" class="">Resume</a></li>
+            <li><a href="self-eval.html">Self Eval</a></li>
+            <li><a href="roadmap.html">Roadmap</a></li>
+            <li><a href="pdp.html" class="active" >Dev Plan</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="snap-container">
+
+        <section class="goal-section" id="goal1">
+            <div class="big-num">01</div>
+            <div class="pdp-card">
+                <div class="info-col">
+                    <span class="goal-tag">Aim 01 — Proficiency</span>
+                    <h2 class="goal-title">Achieve IELTS Overall Band 6.5</h2>
+                    <p class="goal-deadline">Deadline: December 2026</p>
+                    
+                    <div class="fixes-box">
+                        <span class="fixes-label">Addressing Weakness W3</span>
+                        <p class="fixes-text">Limited technical English blocks access to international documentation, global conferences, and postgraduate scholarship opportunities.</p>
+                    </div>
+
+                    <div class="smart-grid">
+                        <div class="smart-item"><span class="smart-key">S</span><p class="smart-val">IELTS 6.5 Overall (Speaking/Writing ≥ 6.0)</p></div>
+                        <div class="smart-item"><span class="smart-key">M</span><p class="smart-val">Official score report + monthly mock tests</p></div>
+                        <div class="smart-item"><span class="smart-key">A</span><p class="smart-val">2 hours daily study using Cambridge materials</p></div>
+                        <div class="smart-item"><span class="smart-key">R</span><p class="smart-val">Unlocks global research & careers</p></div>
+                        <div class="smart-item"><span class="smart-key">T</span><p class="smart-val">Registration by Nov 2026</p></div>
+                    </div>
+                </div>
+
+                <div class="tracking-col">
+                    <div class="progress-header">
+                        <span class="progress-title">Current Readiness</span>
+                        <span class="progress-pct">35%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="35%"></div>
+                    </div>
+
+                    <div class="milestone-list">
+                        <div class="milestone-item">
+                            <div class="ms-status done"></div>
+                            <div class="ms-info"><p class="ms-date">Jun 2026</p><p class="ms-desc">Baseline mock test completed</p></div>
+                        </div>
+                        <div class="milestone-item">
+                            <div class="ms-status prog"></div>
+                            <div class="ms-info"><p class="ms-date">Aug 2026</p><p class="ms-desc">Full mock — Target 6.0</p></div>
+                        </div>
+                        <div class="milestone-item">
+                            <div class="ms-status"></div>
+                            <div class="ms-info"><p class="ms-date">Nov 2026</p><p class="ms-desc">Official Exam Registration</p></div>
+                        </div>
+                        <div class="milestone-item">
+                            <div class="ms-status"></div>
+                            <div class="ms-info"><p class="ms-date">Dec 2026</p><p class="ms-desc">Final Exam — Result 6.5</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="goal-section" id="goal2">
+            <div class="big-num">02</div>
+            <div class="pdp-card">
+                <div class="info-col">
+                    <span class="goal-tag">Aim 02 — Technical Depth</span>
+                    <h2 class="goal-title">Pass CompTIA Network+ Certification</h2>
+                    <p class="goal-deadline">Deadline: February 2027</p>
+                    
+                    <div class="fixes-box">
+                        <span class="fixes-label">Addressing Weakness W4</span>
+                        <p class="fixes-text">Shallow limitation analysis: forces me to understand systems deeply from the ground up, not just superficially.</p>
+                    </div>
+
+                    <div class="smart-grid">
+                        <div class="smart-item"><span class="smart-key">S</span><p class="smart-val">Pass Network+ N10-009 Exam</p></div>
+                        <div class="smart-item"><span class="smart-key">M</span><p class="smart-val">Target score 720/900 or higher</p></div>
+                        <div class="smart-item"><span class="smart-key">A</span><p class="smart-val">1 hour/day study + labs after IELTS</p></div>
+                        <div class="smart-item"><span class="smart-key">R</span><p class="smart-val">Core foundation for IoT Cybersecurity</p></div>
+                        <div class="smart-item"><span class="smart-key">T</span><p class="smart-val">Result before end of Q1 2027</p></div>
+                    </div>
+                </div>
+
+                <div class="tracking-col">
+                    <div class="progress-header">
+                        <span class="progress-title">Current Readiness</span>
+                        <span class="progress-pct">10%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="10%"></div>
+                    </div>
+
+                    <div class="milestone-list">
+                        <div class="milestone-item">
+                            <div class="ms-status prog"></div>
+                            <div class="ms-info"><p class="ms-date">Jan 2027</p><p class="ms-desc">Begin official study plan & labs</p></div>
+                        </div>
+                        <div class="milestone-item">
+                            <div class="ms-status"></div>
+                            <div class="ms-info"><p class="ms-date">Jan 2027</p><p class="ms-desc">First practice exam baseline</p></div>
+                        </div>
+                        <div class="milestone-item">
+                            <div class="ms-status"></div>
+                            <div class="ms-info"><p class="ms-date">Feb 2027</p><p class="ms-desc">Hit consistent 80% on mock exams</p></div>
+                        </div>
+                        <div class="milestone-item">
+                            <div class="ms-status"></div>
+                            <div class="ms-info"><p class="ms-date">Feb 2027</p><p class="ms-desc">Official Certification Achieved</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="goal-section" id="goal3">
+            <div class="big-num">03</div>
+            <div class="pdp-card">
+                <div class="info-col">
+                    <span class="goal-tag">Aim 03 — Soft Skills</span>
+                    <h2 class="goal-title">Build Real Delegation Skills</h2>
+                    <p class="goal-deadline">Ongoing Evolution</p>
+                    
+                    <div class="fixes-box" style="background: #fff7ed; border-color: #ffedd5;">
+                        <span class="fixes-label" style="color: #ea580c;">Addressing Weakness W1 + W2</span>
+                        <p class="fixes-text" style="color: #9a3412;">Combats hesitation to speak up and the habit of over-absorbing work to avoid conflict.</p>
+                    </div>
+
+                    <div class="smart-grid">
+                        <div class="smart-item"><span class="smart-key">S</span><p class="smart-val">Assign clearly & ask for blockers first</p></div>
+                        <div class="smart-item"><span class="smart-key">M</span><p class="smart-val">Peer feedback score target 4/5</p></div>
+                        <div class="smart-item"><span class="smart-key">A</span><p class="smart-val">Behavioral change in every group project</p></div>
+                        <div class="smart-item"><span class="smart-key">R</span><p class="smart-val">Scalable leadership for senior roles</p></div>
+                        <div class="smart-item"><span class="smart-key">T</span><p class="smart-val">Evaluated after each major project</p></div>
+                    </div>
+                </div>
+
+                <div class="tracking-col">
+                    <div class="progress-header">
+                        <span class="progress-title">Habit Formation</span>
+                        <span class="progress-pct">50%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="50%"></div>
+                    </div>
+
+                    <div class="milestone-list">
+                        <div class="milestone-item">
+                            <div class="ms-status done"></div>
+                            <div class="ms-info"><p class="ms-date">Research #2</p><p class="ms-desc">Baseline: Score 1.5/5 (Over-absorbed work)</p></div>
+                        </div>
+                        <div class="milestone-item">
+                            <div class="ms-status prog"></div>
+                            <div class="ms-info"><p class="ms-date">Next Project</p><p class="ms-desc">Apply "Ask First" intervention rule</p></div>
+                        </div>
+                        <div class="milestone-item">
+                            <div class="ms-status"></div>
+                            <div class="ms-info"><p class="ms-date">Next 3 Projs</p><p class="ms-desc">Achieve target avg score ≥ 3.5/5</p></div>
+                        </div>
+                        <div class="milestone-item">
+                            <div class="ms-status"></div>
+                            <div class="ms-info"><p class="ms-date">Internship</p><p class="ms-desc">Professional application & feedback</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!--  SECTION 4 — LEARNING STRATEGIES (IELTS)  -->
+        <!-- ═══════════════════════════════════════════ -->
+        <section class="strategy-section" id="strat1">
+            <div class="strategy-wrapper">
+
+                <div class="strategy-header">
+                    <div>
+                        <span class="strategy-eyebrow">How — Goal 01 · IELTS 6.5</span>
+                        <h2 class="strategy-h1">Learning Strategies & Tracking</h2>
+                    </div>
+                    <span class="formula-chip">Score = Input × Retention × Output Quality</span>
+                </div>
+
+                <div class="strat-tabs">
+                    <button class="strat-tab active" onclick="switchTab('ielts','method')">📐 Method & Formula</button>
+                    <button class="strat-tab" onclick="switchTab('ielts','schedule')">🗓 Weekly Schedule</button>
+                    <button class="strat-tab" onclick="switchTab('ielts','tracking')">📊 Tracking KPIs</button>
+                </div>
+
+                <!-- TAB 1: METHOD -->
+                <div class="strat-panel active" id="ielts-method">
+                    <div class="s-card">
+                        <div class="s-card-title">Core Learning Formula</div>
+
+                        <div class="formula-block">
+                            <span class="f-label">Master Formula — IELTS Score Progression</span>
+                            <div class="f-eq">Band Δ = (Deliberate Practice Hours × Difficulty Index) ÷ Review Gap (days)</div>
+                            <div class="f-vars">
+                                <div class="f-var"><span class="fv-key">Band Δ</span><span class="fv-desc">Score improvement per month</span></div>
+                                <div class="f-var"><span class="fv-key">DP Hours</span><span class="fv-desc">Active study, NOT passive reading/listening</span></div>
+                                <div class="f-var"><span class="fv-key">Difficulty Index</span><span class="fv-desc">1.0 (comfort zone) → 2.0 (stretch zone)</span></div>
+                                <div class="f-var"><span class="fv-key">Review Gap</span><span class="fv-desc">Days between seeing the same material — lower = better retention</span></div>
+                            </div>
+                        </div>
+
+                        <div class="technique-row">
+                            <div class="tech-icon">🃏</div>
+                            <div class="tech-body">
+                                <div class="tech-name">Spaced Repetition System (SRS) — Anki Protocol</div>
+                                <div class="tech-detail">New vocab → review after 1 day → 3 days → 7 → 14 → 30. Target 20 new cards/day from Academic Word List (570 words). Mistake cards go back to Day 1 cycle.</div>
+                                <span class="tech-badge">Retention ≥ 85%</span>
+                            </div>
+                        </div>
+
+                        <div class="technique-row">
+                            <div class="tech-icon">🔬</div>
+                            <div class="tech-body">
+                                <div class="tech-name">Error-First Learning Loop</div>
+                                <div class="tech-detail">After every mock test: extract wrong answers → classify error type (grammar / vocab / time / comprehension) → drill ONLY that error type for 3 days before next full test. Never revisit what's already correct.</div>
+                                <span class="tech-badge">Targeted uplift</span>
+                            </div>
+                        </div>
+
+                        <div class="technique-row">
+                            <div class="tech-icon">🪞</div>
+                            <div class="tech-body">
+                                <div class="tech-name">Shadowing Protocol (Speaking)</div>
+                                <div class="tech-detail">15 min/day: listen to BBC 6 Minute English → pause → repeat sentence at same pace, recording yourself. Compare prosody, stress, linking sounds. Weekly self-score on TED criteria: fluency, pronunciation, coherence.</div>
+                                <span class="tech-badge">S ≥ 6.0 target</span>
+                            </div>
+                        </div>
+
+                        <div class="technique-row">
+                            <div class="tech-icon">✍️</div>
+                            <div class="tech-body">
+                                <div class="tech-name">Writing Feedback Loop (Task 1 + 2)</div>
+                                <div class="tech-detail">Write 1 essay/week under timed conditions → self-grade using official IELTS band descriptors (4 criteria × 25% each) → mark lexical resource, grammar range, task achievement → rewrite weak sections only. Use a scoring matrix below.</div>
+                                <span class="tech-badge">W ≥ 6.0 target</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="s-card">
+                        <div class="s-card-title">Spaced Repetition Intervals</div>
+
+                        <table class="rep-table">
+                            <thead>
+                                <tr><th>Review #</th><th>Interval</th><th>Expected Recall</th><th>Action if forgotten</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Review 1</td><td><span class="interval-pill">+1 day</span></td><td>~80%</td><td>Reset to Day 0</td></tr>
+                                <tr><td>Review 2</td><td><span class="interval-pill">+3 days</span></td><td>~75%</td><td>Reset to Review 1</td></tr>
+                                <tr><td>Review 3</td><td><span class="interval-pill">+7 days</span></td><td>~72%</td><td>Reset to Review 1</td></tr>
+                                <tr><td>Review 4</td><td><span class="interval-pill">+14 days</span></td><td>~85%</td><td>Reset to Review 2</td></tr>
+                                <tr><td>Review 5</td><td><span class="interval-pill">+30 days</span></td><td>~90%</td><td>Flagged for monthly deck</td></tr>
+                                <tr><td>Mastered</td><td><span class="interval-pill">+90 days</span></td><td>≥ 95%</td><td>Long-term deck only</td></tr>
+                            </tbody>
+                        </table>
+
+                        <div class="s-card-title" style="margin-top: 0.5rem;">IELTS Writing Self-Score Matrix</div>
+                        <table class="rep-table">
+                            <thead>
+                                <tr><th>Criterion</th><th>Weight</th><th>Band 6 Threshold</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Task Achievement</td><td>25%</td><td>Fully addresses all parts</td></tr>
+                                <tr><td>Coherence & Cohesion</td><td>25%</td><td>Clear logical sequence, varied linking</td></tr>
+                                <tr><td>Lexical Resource</td><td>25%</td><td>≥ 30% uncommon vocab, minimal errors</td></tr>
+                                <tr><td>Grammatical Range</td><td>25%</td><td>Mix of complex structures, few mistakes</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 2: SCHEDULE -->
+                <div class="strat-panel" id="ielts-schedule">
+                    <div class="s-card">
+                        <div class="s-card-title">Daily Study Block Structure (2h/day)</div>
+
+                        <div class="formula-block">
+                            <span class="f-label">Daily Time Allocation Formula</span>
+                            <div class="f-eq">2h = 25min Vocab (SRS) + 45min Skill Drill + 30min Reading + 20min Review</div>
+                            <div class="f-vars">
+                                <div class="f-var"><span class="fv-key">25min</span><span class="fv-desc">Anki SRS deck — 20 new + due reviews</span></div>
+                                <div class="f-var"><span class="fv-key">45min</span><span class="fv-desc">Rotating daily skill: L / R / W / S (4-day cycle)</span></div>
+                                <div class="f-var"><span class="fv-key">30min</span><span class="fv-desc">Academic reading with annotation → summary in 3 sentences</span></div>
+                                <div class="f-var"><span class="fv-key">20min</span><span class="fv-desc">Error log review from yesterday's session</span></div>
+                            </div>
+                        </div>
+
+                        <div class="week-plan">
+                            <div class="week-row">
+                                <span class="wr-day">Mon</span>
+                                <div class="wr-bar-wrap"><div class="wr-bar" style="width:100%"></div></div>
+                                <span class="wr-label">Listening — B2-C1 audio</span>
+                            </div>
+                            <div class="week-row">
+                                <span class="wr-day">Tue</span>
+                                <div class="wr-bar-wrap"><div class="wr-bar" style="width:100%"></div></div>
+                                <span class="wr-label">Reading — Academic text</span>
+                            </div>
+                            <div class="week-row">
+                                <span class="wr-day">Wed</span>
+                                <div class="wr-bar-wrap"><div class="wr-bar" style="width:100%"></div></div>
+                                <span class="wr-label">Writing Task 2 — 250w</span>
+                            </div>
+                            <div class="week-row">
+                                <span class="wr-day">Thu</span>
+                                <div class="wr-bar-wrap"><div class="wr-bar" style="width:100%"></div></div>
+                                <span class="wr-label">Speaking — Shadowing + Record</span>
+                            </div>
+                            <div class="week-row">
+                                <span class="wr-day">Fri</span>
+                                <div class="wr-bar-wrap"><div class="wr-bar" style="width:80%"></div></div>
+                                <span class="wr-label">Error log & weak skill drill</span>
+                            </div>
+                            <div class="week-row">
+                                <span class="wr-day">Sat</span>
+                                <div class="wr-bar-wrap"><div class="wr-bar" style="width:100%"></div></div>
+                                <span class="wr-label">Full 2h45min timed mock test</span>
+                            </div>
+                            <div class="week-row">
+                                <span class="wr-day">Sun</span>
+                                <div class="wr-bar-wrap"><div class="wr-bar" style="width:60%"></div></div>
+                                <span class="wr-label">Mock debrief + SRS catchup</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="s-card">
+                        <div class="s-card-title">Monthly Milestone Cadence</div>
+
+                        <div class="cadence-wrap">
+                            <div class="cadence-item">
+                                <span class="cadence-freq">Daily</span>
+                                <span class="cadence-desc">Anki SRS, skill drill, error log entry</span>
+                                <span class="cadence-metric">2h block</span>
+                            </div>
+                            <div class="cadence-item">
+                                <span class="cadence-freq">Weekly</span>
+                                <span class="cadence-desc">1 full timed mock test (Cambridge IELTS series 10–18)</span>
+                                <span class="cadence-metric">Sat morning</span>
+                            </div>
+                            <div class="cadence-item">
+                                <span class="cadence-freq orange">Monthly</span>
+                                <span class="cadence-desc">Band score review → recalculate projection → adjust weak skill weight</span>
+                                <span class="cadence-metric">Last Sunday</span>
+                            </div>
+                            <div class="cadence-item">
+                                <span class="cadence-freq purple">Quarterly</span>
+                                <span class="cadence-desc">Full diagnostic: reset error log, re-run baseline, reorder skill priority</span>
+                                <span class="cadence-metric">Sep + Nov</span>
+                            </div>
+                        </div>
+
+                        <div class="s-card-title" style="margin-top: 0.4rem;">Band Score Projection Model</div>
+                        <div class="formula-block">
+                            <span class="f-label">Projected Band — Linear Growth Assumption</span>
+                            <div class="f-eq">Band(t) = 5.0 + (t × 0.125) — where t = weeks of deliberate practice</div>
+                            <div class="f-vars">
+                                <div class="f-var"><span class="fv-key">Start (Jun)</span><span class="fv-desc">5.0 baseline (estimated from June mock)</span></div>
+                                <div class="f-var"><span class="fv-key">Aug target</span><span class="fv-desc">6.0 → requires ~8 weeks consistent improvement</span></div>
+                                <div class="f-var"><span class="fv-key">Dec target</span><span class="fv-desc">6.5 → 12 more weeks of stretch-zone practice</span></div>
+                                <div class="f-var"><span class="fv-key">Red flag</span><span class="fv-desc">If Aug mock &lt; 5.5, shift to intensive Speaking + Writing only</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: TRACKING -->
+                <div class="strat-panel" id="ielts-tracking">
+                    <div class="s-card">
+                        <div class="s-card-title">Key Performance Indicators</div>
+
+                        <div class="tracker-grid">
+                            <div class="tracker-cell">
+                                <span class="tc-label">Mock Test Frequency</span>
+                                <div class="tc-value">1×/wk</div>
+                                <div class="tc-sub">Cambridge IELTS series only</div>
+                            </div>
+                            <div class="tracker-cell">
+                                <span class="tc-label">Vocab Retention Rate</span>
+                                <div class="tc-value">≥ 85%</div>
+                                <div class="tc-sub">Anki recall % — checked monthly</div>
+                            </div>
+                            <div class="tracker-cell">
+                                <span class="tc-label">Daily Study Consistency</span>
+                                <div class="tc-value">6/7 days</div>
+                                <div class="tc-sub">Min threshold for band progression</div>
+                            </div>
+                            <div class="tracker-cell">
+                                <span class="tc-label">Writing Score Target</span>
+                                <div class="tc-value">6.0+</div>
+                                <div class="tc-sub">Self-scored + peer review bi-weekly</div>
+                            </div>
+                            <div class="tracker-cell">
+                                <span class="tc-label">Speaking Recordings</span>
+                                <div class="tc-value">4/wk</div>
+                                <div class="tc-sub">Part 1, 2, 3 drills — logged in Notion</div>
+                            </div>
+                            <div class="tracker-cell">
+                                <span class="tc-label">Error Log Entries</span>
+                                <div class="tc-value">5+/wk</div>
+                                <div class="tc-sub">Classified by L/R/W/S + error type</div>
+                            </div>
+                        </div>
+
+                        <div class="s-card-title" style="margin-top: 0.4rem;">Score Verification Formula</div>
+                        <div class="formula-block">
+                            <span class="f-label">Are you on track?</span>
+                            <div class="f-eq">Progress Index = (Current Band − Baseline) ÷ (Target − Baseline) × 100%</div>
+                            <div class="f-vars">
+                                <div class="f-var"><span class="fv-key">≥ 80%</span><span class="fv-desc">On track — maintain current schedule</span></div>
+                                <div class="f-var"><span class="fv-key">50–79%</span><span class="fv-desc">At risk — add 30min focused drill on worst skill</span></div>
+                                <div class="f-var"><span class="fv-key">&lt; 50%</span><span class="fv-desc">Off track — trigger full schedule reset & seek tutor</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="s-card">
+                        <div class="s-card-title">Logging System (Notion Template)</div>
+
+                        <div class="habit-stack">
+                            <div class="habit-item"><span class="habit-order">①</span><span class="habit-arrow">→</span><span class="habit-name">Date + Session Type (L/R/W/S)</span><span class="habit-time">daily</span></div>
+                            <div class="habit-item"><span class="habit-order">②</span><span class="habit-arrow">→</span><span class="habit-name">Anki cards reviewed / new / retention %</span><span class="habit-time">daily</span></div>
+                            <div class="habit-item"><span class="habit-order">③</span><span class="habit-arrow">→</span><span class="habit-name">Mock score (if applicable) per skill</span><span class="habit-time">weekly</span></div>
+                            <div class="habit-item"><span class="habit-order">④</span><span class="habit-arrow">→</span><span class="habit-name">Error type + count (grammar / vocab / time)</span><span class="habit-time">per session</span></div>
+                            <div class="habit-item"><span class="habit-order">⑤</span><span class="habit-arrow">→</span><span class="habit-name">Speaking recording link + self-score (1–9)</span><span class="habit-time">4×/week</span></div>
+                            <div class="habit-item"><span class="habit-order">⑥</span><span class="habit-arrow">→</span><span class="habit-name">Weekly Progress Index calculation</span><span class="habit-time">Sunday</span></div>
+                            <div class="habit-item"><span class="habit-order">⑦</span><span class="habit-arrow">→</span><span class="habit-name">Monthly band projection vs. actual</span><span class="habit-time">monthly</span></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════ -->
+        <!--  SECTION 5 — LEARNING STRATEGIES (Network+)   -->
+        <!-- ═══════════════════════════════════════════════ -->
+        <section class="strategy-section" id="strat2">
+            <div class="strategy-wrapper">
+
+                <div class="strategy-header">
+                    <div>
+                        <span class="strategy-eyebrow">How — Goal 02 · CompTIA Network+</span>
+                        <h2 class="strategy-h1">Learning Strategies & Tracking</h2>
+                    </div>
+                    <span class="formula-chip">Score = Conceptual Depth × Practice Volume × Simulation Hours</span>
+                </div>
+
+                <div class="strat-tabs">
+                    <button class="strat-tab active" onclick="switchTab('net','method')">📐 Method & Formula</button>
+                    <button class="strat-tab" onclick="switchTab('net','schedule')">🗓 Study Plan</button>
+                    <button class="strat-tab" onclick="switchTab('net','tracking')">📊 Tracking KPIs</button>
+                </div>
+
+                <!-- TAB 1 -->
+                <div class="strat-panel active" id="net-method">
+                    <div class="s-card">
+                        <div class="s-card-title">Core Learning Formula</div>
+
+                        <div class="formula-block">
+                            <span class="f-label">Network+ Readiness Formula</span>
+                            <div class="f-eq">Exam Score = (Domain Mastery × 0.6) + (Simulation Practice × 0.25) + (Recall Speed × 0.15)</div>
+                            <div class="f-vars">
+                                <div class="f-var"><span class="fv-key">Domain Mastery</span><span class="fv-desc">Avg % correct per domain on practice exams</span></div>
+                                <div class="f-var"><span class="fv-key">Simulation</span><span class="fv-desc">PBQ (performance-based questions) score in labs</span></div>
+                                <div class="f-var"><span class="fv-key">Recall Speed</span><span class="fv-desc">Answer under 90 sec avg — tested in timed drills</span></div>
+                            </div>
+                        </div>
+
+                        <div class="technique-row">
+                            <div class="tech-icon">🗺️</div>
+                            <div class="tech-body">
+                                <div class="tech-name">Domain-First Deep Dive (N10-009)</div>
+                                <div class="tech-detail">Study domains in weight order: Networking Concepts (23%) → Network Implementation (19%) → Network Operations (17%) → Network Security (20%) → Network Troubleshooting (21%). 1 domain per phase, never skip to next until ≥75% on domain practice test.</div>
+                                <span class="tech-badge">Pass threshold: 720/900</span>
+                            </div>
+                        </div>
+
+                        <div class="technique-row">
+                            <div class="tech-icon">🧪</div>
+                            <div class="tech-body">
+                                <div class="tech-name">Hands-On Lab Protocol (GNS3 / Packet Tracer)</div>
+                                <div class="tech-detail">Each concept → build a lab scenario, not just memorize. Subnetting: calculate 50 subnets by hand before moving on. VLAN setup, routing protocols, firewall ACLs — must configure in lab, screenshot results, annotate what changed and why.</div>
+                                <span class="tech-badge">Lab hours: 20+ total</span>
+                            </div>
+                        </div>
+
+                        <div class="technique-row">
+                            <div class="tech-icon">⚡</div>
+                            <div class="tech-body">
+                                <div class="tech-name">Feynman Concept Compression</div>
+                                <div class="tech-detail">After studying each sub-domain, write a 5-sentence explanation as if teaching a non-technical person. If you can't simplify it, you don't understand it. Review these summaries weekly — they become your rapid recall sheet before the exam.</div>
+                                <span class="tech-badge">Depth check</span>
+                            </div>
+                        </div>
+
+                        <div class="technique-row">
+                            <div class="tech-icon">🔥</div>
+                            <div class="tech-body">
+                                <div class="tech-name">Weakness Amplification Drilling</div>
+                                <div class="tech-detail">Track domain scores in each practice exam. Any domain below 65%: add a dedicated 30min daily session on that domain only for 1 week, then retest. Never let a weak domain coast — it drags the total score down disproportionately on CompTIA's weighted scoring.</div>
+                                <span class="tech-badge">Floor: ≥ 70% per domain</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="s-card">
+                        <div class="s-card-title">N10-009 Domain Breakdown</div>
+
+                        <table class="rep-table">
+                            <thead>
+                                <tr><th>Domain</th><th>Exam Weight</th><th>Study Priority</th><th>Min Score to Pass</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1.0 Networking Concepts</td><td>23%</td><td>Phase 1</td><td>≥ 72%</td></tr>
+                                <tr><td>4.0 Network Security</td><td>20%</td><td>Phase 2</td><td>≥ 75%</td></tr>
+                                <tr><td>5.0 Troubleshooting</td><td>21%</td><td>Phase 3</td><td>≥ 78%</td></tr>
+                                <tr><td>2.0 Implementation</td><td>19%</td><td>Phase 4</td><td>≥ 70%</td></tr>
+                                <tr><td>3.0 Operations</td><td>17%</td><td>Phase 5</td><td>≥ 68%</td></tr>
+                            </tbody>
+                        </table>
+
+                        <div class="s-card-title" style="margin-top: 0.5rem;">Subnetting Speed Formula</div>
+                        <div class="formula-block">
+                            <span class="f-label">Quick Subnetting Method</span>
+                            <div class="f-eq">Block Size = 256 − Subnet Mask Last Octet</div>
+                            <div class="f-vars">
+                                <div class="f-var"><span class="fv-key">e.g. /26</span><span class="fv-desc">Mask = 255.255.255.192 → Block = 64 → 0,64,128,192</span></div>
+                                <div class="f-var"><span class="fv-key">Hosts</span><span class="fv-desc">2^(32−prefix) − 2 (network & broadcast excluded)</span></div>
+                                <div class="f-var"><span class="fv-key">Target</span><span class="fv-desc">Solve any /24–/30 subnet in under 30 seconds</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2 -->
+                <div class="strat-panel" id="net-schedule">
+                    <div class="s-card">
+                        <div class="s-card-title">Phase-Based Study Plan (Jan–Feb 2027)</div>
+
+                        <div class="formula-block">
+                            <span class="f-label">1h/day allocation post-IELTS</span>
+                            <div class="f-eq">60min = 30min Video/Reading + 20min Q-bank Drill + 10min Lab/Review</div>
+                            <div class="f-vars">
+                                <div class="f-var"><span class="fv-key">Week 1–2</span><span class="fv-desc">Domain 1 + 2 (Concepts + Implementation) — Professor Messer videos</span></div>
+                                <div class="f-var"><span class="fv-key">Week 3–4</span><span class="fv-desc">Domain 4 + 5 (Security + Troubleshooting) — priority weight</span></div>
+                                <div class="f-var"><span class="fv-key">Week 5–6</span><span class="fv-desc">Domain 3 + Full mock exams (Exam Compass, Jason Dion)</span></div>
+                                <div class="f-var"><span class="fv-key">Week 7</span><span class="fv-desc">PBQ lab simulations only + weak domain review</span></div>
+                                <div class="f-var"><span class="fv-key">Week 8</span><span class="fv-desc">3 full practice exams, aim ≥ 80% consistently</span></div>
+                            </div>
+                        </div>
+
+                        <div class="week-plan">
+                            <div class="week-row">
+                                <span class="wr-day">Mon</span>
+                                <div class="wr-bar-wrap"><div class="wr-bar" style="width:100%"></div></div>
+                                <span class="wr-label">Video lesson (1 sub-domain)</span>
+                            </div>
+                            <div class="week-row">
+                                <span class="wr-day">Tue</span>
+                                <div class="wr-bar-wrap"><div class="wr-bar" style="width:100%"></div></div>
+                                <span class="wr-label">Q-bank: 30 questions timed</span>
+                            </div>
+                            <div class="week-row">
+                                <span class="wr-day">Wed</span>
+                                <div class="wr-bar-wrap"><div class="wr-bar" style="width:100%"></div></div>
+                                <span class="wr-label">Hands-on lab (GNS3)</span>
+                            </div>
+                            <div class="week-row">
+                                <span class="wr-day">Thu</span>
+                                <div class="wr-bar-wrap"><div class="wr-bar" style="width:100%"></div></div>
+                                <span class="wr-label">Feynman summary writing</span>
+                            </div>
+                            <div class="week-row">
+                                <span class="wr-day">Fri</span>
+                                <div class="wr-bar-wrap"><div class="wr-bar" style="width:80%"></div></div>
+                                <span class="wr-label">Weak domain targeted drill</span>
+                            </div>
+                            <div class="week-row">
+                                <span class="wr-day">Sat</span>
+                                <div class="wr-bar-wrap"><div class="wr-bar" style="width:100%"></div></div>
+                                <span class="wr-label">Full 90Q timed practice exam</span>
+                            </div>
+                            <div class="week-row">
+                                <span class="wr-day">Sun</span>
+                                <div class="wr-bar-wrap"><div class="wr-bar" style="width:60%"></div></div>
+                                <span class="wr-label">Exam debrief + score log</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="s-card">
+                        <div class="s-card-title">Review Cadence</div>
+
+                        <div class="cadence-wrap">
+                            <div class="cadence-item">
+                                <span class="cadence-freq">Daily</span>
+                                <span class="cadence-desc">20 Q-bank questions + 1 Feynman summary OR 1 lab</span>
+                                <span class="cadence-metric">60min</span>
+                            </div>
+                            <div class="cadence-item">
+                                <span class="cadence-freq">Weekly</span>
+                                <span class="cadence-desc">Full 90-question timed exam — score logged by domain</span>
+                                <span class="cadence-metric">Saturday</span>
+                            </div>
+                            <div class="cadence-item">
+                                <span class="cadence-freq orange">Bi-weekly</span>
+                                <span class="cadence-desc">Domain score review → identify sub-70% domains → drill block triggered</span>
+                                <span class="cadence-metric">Every 2 Sundays</span>
+                            </div>
+                            <div class="cadence-item">
+                                <span class="cadence-freq purple">Gate Check</span>
+                                <span class="cadence-desc">Do NOT book the real exam until 3 consecutive mocks ≥ 80%</span>
+                                <span class="cadence-metric">Week 7–8</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3 -->
+                <div class="strat-panel" id="net-tracking">
+                    <div class="s-card">
+                        <div class="s-card-title">Key Performance Indicators</div>
+
+                        <div class="tracker-grid">
+                            <div class="tracker-cell">
+                                <span class="tc-label">Mock Exam Target</span>
+                                <div class="tc-value">≥ 80%</div>
+                                <div class="tc-sub">3 consecutive before booking real exam</div>
+                            </div>
+                            <div class="tracker-cell">
+                                <span class="tc-label">Domain Floor Score</span>
+                                <div class="tc-value">≥ 70%</div>
+                                <div class="tc-sub">Each domain — tracked per mock</div>
+                            </div>
+                            <div class="tracker-cell">
+                                <span class="tc-label">Daily Q-bank Volume</span>
+                                <div class="tc-value">20 Qs</div>
+                                <div class="tc-sub">Timed at 90 sec/question max</div>
+                            </div>
+                            <div class="tracker-cell">
+                                <span class="tc-label">Lab Hours (Total)</span>
+                                <div class="tc-value">20h+</div>
+                                <div class="tc-sub">GNS3 or Packet Tracer sessions</div>
+                            </div>
+                            <div class="tracker-cell">
+                                <span class="tc-label">Feynman Summaries</span>
+                                <div class="tc-value">25+</div>
+                                <div class="tc-sub">One per sub-domain studied</div>
+                            </div>
+                            <div class="tracker-cell">
+                                <span class="tc-label">Official Exam Score</span>
+                                <div class="tc-value">720+</div>
+                                <div class="tc-sub">Out of 900 — passing threshold</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="s-card">
+                        <div class="s-card-title">Score Readiness Formula</div>
+
+                        <div class="formula-block">
+                            <span class="f-label">Exam Booking Decision Gate</span>
+                            <div class="f-eq">Ready = (Avg Mock ≥ 80%) AND (No domain &lt; 70%) AND (≥ 3 consecutive)</div>
+                            <div class="f-vars">
+                                <div class="f-var"><span class="fv-key">Green</span><span class="fv-desc">All 3 conditions true → book exam within 72hrs</span></div>
+                                <div class="f-var"><span class="fv-key">Yellow</span><span class="fv-desc">2 of 3 true → 1 more week of targeted drill</span></div>
+                                <div class="f-var"><span class="fv-key">Red</span><span class="fv-desc">1 or 0 true → extend study phase by 2 weeks, reassess</span></div>
+                            </div>
+                        </div>
+
+                        <div class="s-card-title" style="margin-top: 0.5rem;">Progress Log Structure</div>
+                        <div class="habit-stack">
+                            <div class="habit-item"><span class="habit-order">①</span><span class="habit-arrow">→</span><span class="habit-name">Date + Domain studied</span><span class="habit-time">daily</span></div>
+                            <div class="habit-item"><span class="habit-order">②</span><span class="habit-arrow">→</span><span class="habit-name">Q-bank score (correct / total)</span><span class="habit-time">daily</span></div>
+                            <div class="habit-item"><span class="habit-order">③</span><span class="habit-arrow">→</span><span class="habit-name">Missed concepts + category tag</span><span class="habit-time">per session</span></div>
+                            <div class="habit-item"><span class="habit-order">④</span><span class="habit-order" style="width:auto">→</span><span class="habit-name">Weekly mock score (by domain %)</span><span class="habit-time">weekly</span></div>
+                            <div class="habit-item"><span class="habit-order">⑤</span><span class="habit-arrow">→</span><span class="habit-name">Lab session: topic + screenshot</span><span class="habit-time">per lab</span></div>
+                            <div class="habit-item"><span class="habit-order">⑥</span><span class="habit-arrow">→</span><span class="habit-name">Booking gate check (pass/fail)</span><span class="habit-time">weekly from wk 6</span></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════ -->
+        <!--  SECTION 6 — LEARNING STRATEGIES (Delegation)     -->
+        <!-- ═══════════════════════════════════════════════════ -->
+        <section class="strategy-section" id="strat3">
+            <div class="strategy-wrapper">
+
+                <div class="strategy-header">
+                    <div>
+                        <span class="strategy-eyebrow">How — Goal 03 · Delegation Skills</span>
+                        <h2 class="strategy-h1">Learning Strategies & Tracking</h2>
+                    </div>
+                    <span class="formula-chip">Growth = Reflection Frequency × Intervention Courage × Feedback Loops</span>
+                </div>
+
+                <div class="strat-tabs">
+                    <button class="strat-tab active" onclick="switchTab('del','method')">📐 Method & Framework</button>
+                    <button class="strat-tab" onclick="switchTab('del','schedule')">🔁 Habit Stack</button>
+                    <button class="strat-tab" onclick="switchTab('del','tracking')">📊 Tracking KPIs</button>
+                </div>
+
+                <!-- TAB 1 -->
+                <div class="strat-panel active" id="del-method">
+                    <div class="s-card">
+                        <div class="s-card-title">Core Behavioral Change Formula</div>
+
+                        <div class="formula-block">
+                            <span class="f-label">Delegation Mastery Model</span>
+                            <div class="f-eq">Leadership Score = (Clarity of Instruction × Trust Level) ÷ Micromanagement Tendency</div>
+                            <div class="f-vars">
+                                <div class="f-var"><span class="fv-key">Clarity</span><span class="fv-desc">Task assigned with: WHO does WHAT by WHEN with WHAT definition of done</span></div>
+                                <div class="f-var"><span class="fv-key">Trust Level</span><span class="fv-desc">1.0 = check-in every step → 3.0 = outcome-only check</span></div>
+                                <div class="f-var"><span class="fv-key">Micromanagement</span><span class="fv-desc">Number of unsolicited follow-ups — target: 0 per assigned task</span></div>
+                            </div>
+                        </div>
+
+                        <div class="technique-row">
+                            <div class="tech-icon">🎯</div>
+                            <div class="tech-body">
+                                <div class="tech-name">"Ask First" Rule (W1 Antidote)</div>
+                                <div class="tech-detail">Before absorbing any task that could belong to someone else, ask: "Can this be done by someone on the team? What would they need to succeed?" If yes → delegate with the SMART task format. Only absorb if no one else can do it at all.</div>
+                                <span class="tech-badge">Baseline: 1.5/5 → Target: 4/5</span>
+                            </div>
+                        </div>
+
+                        <div class="technique-row">
+                            <div class="tech-icon">📋</div>
+                            <div class="tech-body">
+                                <div class="tech-name">SMART Task Delegation Format</div>
+                                <div class="tech-detail">Every delegated task must include: Specific output, Measurable criteria, Authority level (can decide X without asking me), Resources available, and Time deadline. Template: "By [date], please deliver [output], defined as [done criteria]. You have authority to [scope]. Ask me if [blocker type]."</div>
+                                <span class="tech-badge">Clarity framework</span>
+                            </div>
+                        </div>
+
+                        <div class="technique-row">
+                            <div class="tech-icon">🪃</div>
+                            <div class="tech-body">
+                                <div class="tech-name">Post-Project After-Action Review (AAR)</div>
+                                <div class="tech-detail">After every project: answer 4 questions in writing — (1) What did I absorb that I should have delegated? (2) What did I delegate well? (3) What was the outcome for the delegatee? (4) What would I do differently? Score yourself 1–5 on each.</div>
+                                <span class="tech-badge">Per project</span>
+                            </div>
+                        </div>
+
+                        <div class="technique-row">
+                            <div class="tech-icon">🗣️</div>
+                            <div class="tech-body">
+                                <div class="tech-name">Peer Feedback Collection Protocol</div>
+                                <div class="tech-detail">After each group project, send a 4-question anonymous survey to teammates: (1) Clarity of task assignment 1–5, (2) Did I listen before deciding 1–5, (3) Did I respect your working pace 1–5, (4) What should I do differently. Average score = delegation KPI.</div>
+                                <span class="tech-badge">Target avg ≥ 4/5</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="s-card">
+                        <div class="s-card-title">Delegation Maturity Levels</div>
+
+                        <table class="rep-table">
+                            <thead>
+                                <tr><th>Level</th><th>Behavior</th><th>Score</th><th>My Status</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>L0 — Absorber</td><td>Does everything alone to avoid conflict</td><td>1–1.5</td><td>⚠️ Current</td></tr>
+                                <tr><td>L1 — Assigner</td><td>Delegates but micromanages outcome</td><td>2–2.5</td><td>→ Next target</td></tr>
+                                <tr><td>L2 — Enabler</td><td>Delegates + provides resources + trusts</td><td>3–3.5</td><td>Mid goal</td></tr>
+                                <tr><td>L3 — Developer</td><td>Delegates to grow team, coaches blockers</td><td>4–4.5</td><td>End goal</td></tr>
+                                <tr><td>L4 — Multiplier</td><td>Team self-delegates, you focus on strategy</td><td>5</td><td>Internship+</td></tr>
+                            </tbody>
+                        </table>
+
+                        <div class="s-card-title" style="margin-top: 0.5rem;">Conflict Avoidance Antidote Formula</div>
+                        <div class="formula-block">
+                            <span class="f-label">Speaking Up Calibration</span>
+                            <div class="f-eq">Speak-Up Score = (Stakes × 0.5) + (Relationship Safety × 0.3) + (Clarity of Concern × 0.2)</div>
+                            <div class="f-vars">
+                                <div class="f-var"><span class="fv-key">Stakes</span><span class="fv-desc">How much does silence hurt the project? Rate 1–5</span></div>
+                                <div class="f-var"><span class="fv-key">Rel Safety</span><span class="fv-desc">How safe is it to raise this? Rate 1–5</span></div>
+                                <div class="f-var"><span class="fv-key">If total ≥ 3.0</span><span class="fv-desc">Obligation to speak — no option to stay silent</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2 -->
+                <div class="strat-panel" id="del-schedule">
+                    <div class="s-card">
+                        <div class="s-card-title">Behavioral Habit Stack</div>
+
+                        <div class="formula-block">
+                            <span class="f-label">Implementation Intention Format</span>
+                            <div class="f-eq">When [trigger situation], I will [specific action], not [old behavior]</div>
+                            <div class="f-vars">
+                                <div class="f-var"><span class="fv-key">Trigger 1</span><span class="fv-desc">Someone in team seems stuck → I will ask "What do you need?" not take over</span></div>
+                                <div class="f-var"><span class="fv-key">Trigger 2</span><span class="fv-desc">New task arrives → I will decide: mine or delegate? in under 60 seconds</span></div>
+                                <div class="f-var"><span class="fv-key">Trigger 3</span><span class="fv-desc">Project kickoff → I will assign with SMART format before session ends</span></div>
+                            </div>
+                        </div>
+
+                        <div class="habit-stack">
+                            <div class="habit-item"><span class="habit-order">①</span><span class="habit-arrow">→</span><span class="habit-name">Project kickoff → fill SMART delegation template for each member</span><span class="habit-time">Day 1</span></div>
+                            <div class="habit-item"><span class="habit-order">②</span><span class="habit-arrow">→</span><span class="habit-name">Weekly check-in → ask "What's blocking you?" (not "Did you do it?")</span><span class="habit-time">Weekly</span></div>
+                            <div class="habit-item"><span class="habit-order">③</span><span class="habit-arrow">→</span><span class="habit-name">Catch yourself absorbing → write it in absorption log, decision in 60s</span><span class="habit-time">Real-time</span></div>
+                            <div class="habit-item"><span class="habit-order">④</span><span class="habit-arrow">→</span><span class="habit-name">Project end → send peer feedback survey (4 questions, anonymous)</span><span class="habit-time">Post-project</span></div>
+                            <div class="habit-item"><span class="habit-order">⑤</span><span class="habit-arrow">→</span><span class="habit-name">Receive survey results → write AAR, score 1–5 on all 4 questions</span><span class="habit-time">Post-project</span></div>
+                            <div class="habit-item"><span class="habit-order">⑥</span><span class="habit-arrow">→</span><span class="habit-name">Monthly reflection → plot delegation score trend, identify pattern</span><span class="habit-time">Monthly</span></div>
+                        </div>
+                    </div>
+
+                    <div class="s-card">
+                        <div class="s-card-title">Review Cadence</div>
+
+                        <div class="cadence-wrap">
+                            <div class="cadence-item">
+                                <span class="cadence-freq">Real-time</span>
+                                <span class="cadence-desc">Apply "Ask First" rule & SMART format every time a task arises</span>
+                                <span class="cadence-metric">Every project</span>
+                            </div>
+                            <div class="cadence-item">
+                                <span class="cadence-freq">Weekly</span>
+                                <span class="cadence-desc">Log absorption instances → count this week vs. last week</span>
+                                <span class="cadence-metric">Sunday</span>
+                            </div>
+                            <div class="cadence-item">
+                                <span class="cadence-freq orange">Per project</span>
+                                <span class="cadence-desc">Collect peer feedback → compute avg delegation score → AAR write-up</span>
+                                <span class="cadence-metric">End of each project</span>
+                            </div>
+                            <div class="cadence-item">
+                                <span class="cadence-freq purple">Quarterly</span>
+                                <span class="cadence-desc">Trend chart: delegation score across all projects → level progression check</span>
+                                <span class="cadence-metric">Every 3 months</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3 -->
+                <div class="strat-panel" id="del-tracking">
+                    <div class="s-card">
+                        <div class="s-card-title">Key Performance Indicators</div>
+
+                        <div class="tracker-grid">
+                            <div class="tracker-cell">
+                                <span class="tc-label">Peer Feedback Score</span>
+                                <div class="tc-value">≥ 4/5</div>
+                                <div class="tc-sub">Avg across 4 delegation criteria</div>
+                            </div>
+                            <div class="tracker-cell">
+                                <span class="tc-label">Absorption Instances</span>
+                                <div class="tc-value">↓ 50%</div>
+                                <div class="tc-sub">vs. Research #2 baseline per project</div>
+                            </div>
+                            <div class="tracker-cell">
+                                <span class="tc-label">SMART Tasks Issued</span>
+                                <div class="tc-value">100%</div>
+                                <div class="tc-sub">Every delegated task uses the template</div>
+                            </div>
+                            <div class="tracker-cell">
+                                <span class="tc-label">AAR Completion Rate</span>
+                                <div class="tc-value">100%</div>
+                                <div class="tc-sub">Written after every project — no exceptions</div>
+                            </div>
+                            <div class="tracker-cell">
+                                <span class="tc-label">Maturity Level Target</span>
+                                <div class="tc-value">L2</div>
+                                <div class="tc-sub">Enabler by end of next 3 projects</div>
+                            </div>
+                            <div class="tracker-cell">
+                                <span class="tc-label">Speak-Up Score</span>
+                                <div class="tc-value">≥ 3.0</div>
+                                <div class="tc-sub">Per decision point — tracked in journal</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="s-card">
+                        <div class="s-card-title">Readiness Formula — Internship Gate</div>
+
+                        <div class="formula-block">
+                            <span class="f-label">Internship Readiness Check</span>
+                            <div class="f-eq">Ready = Avg Peer Score ≥ 3.5 AND AAR all completed AND maturity ≥ L2</div>
+                            <div class="f-vars">
+                                <div class="f-var"><span class="fv-key">Green</span><span class="fv-desc">All 3 met → ready to lead delegation in professional setting</span></div>
+                                <div class="f-var"><span class="fv-key">Yellow</span><span class="fv-desc">Score 3.0–3.4 → 1 more project cycle with specific intervention</span></div>
+                                <div class="f-var"><span class="fv-key">Red</span><span class="fv-desc">Score &lt; 3.0 → revisit root cause (avoidance? clarity?) + seek mentor feedback</span></div>
+                            </div>
+                        </div>
+
+                        <div class="s-card-title" style="margin-top: 0.5rem;">Tracking Log Structure</div>
+                        <div class="habit-stack">
+                            <div class="habit-item"><span class="habit-order">①</span><span class="habit-arrow">→</span><span class="habit-name">Project name + date + team size</span><span class="habit-time">per project</span></div>
+                            <div class="habit-item"><span class="habit-order">②</span><span class="habit-arrow">→</span><span class="habit-name">Tasks delegated (count + SMART? Y/N)</span><span class="habit-time">per project</span></div>
+                            <div class="habit-item"><span class="habit-order">③</span><span class="habit-arrow">→</span><span class="habit-name">Tasks absorbed (count + reason)</span><span class="habit-time">per project</span></div>
+                            <div class="habit-item"><span class="habit-order">④</span><span class="habit-arrow">→</span><span class="habit-name">Peer feedback avg score (4 criteria)</span><span class="habit-time">post-project</span></div>
+                            <div class="habit-item"><span class="habit-order">⑤</span><span class="habit-arrow">→</span><span class="habit-name">AAR: 4-question self-score + written notes</span><span class="habit-time">post-project</span></div>
+                            <div class="habit-item"><span class="habit-order">⑥</span><span class="habit-arrow">→</span><span class="habit-name">Maturity level self-assessment (L0–L4)</span><span class="habit-time">quarterly</span></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Tab switcher for strategy sections
+        function switchTab(prefix, tab) {
+            // Hide all panels for this prefix
+            document.querySelectorAll(`[id^="${prefix}-"]`).forEach(p => {
+                p.classList.remove('active');
+            });
+            // Show target panel
+            const target = document.getElementById(`${prefix}-${tab}`);
+            if (target) target.classList.add('active');
+
+            // Update tab buttons within the same strategy section
+            const section = target.closest('.strategy-section');
+            section.querySelectorAll('.strat-tab').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+
+        // Animate progress bars when section comes into view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const fill = entry.target.querySelector('.progress-fill');
+                    if (fill) {
+                        fill.style.width = fill.getAttribute('data-width');
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.goal-section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+
+</body>
+</html>
